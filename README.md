@@ -1,23 +1,6 @@
-Dashboard/Tactics Plugin for OpenCPN
+A Dashboard Plugin for OpenCPN
 ====================================
-dashboard_pi with tactics_pi performance enhancements integrated.
-This plugin forks and merges the two mentioned plugins.
-It does complie as dashboard_pi alone, for testing purposes.
 
-It works like Dashboard for you but if you are interested in
-your boat's performance and have a polar file for it (or you
-can grab one from weather_routing_pi plugin), a new world of
-algorithm driven instrumens and helper functions will open to you!
-
-Also you have some couple of extras in Dashboard like the true
-wind calculation (by Tactics) and temperatures in C or F + some
-improvements behind the scenes which have not necessarily found
-yet their way to the built-in Dashboard.
-
-Algthough not mandatory, it is recommended to disable the built-in
-Dashboard (we use the same parameters), standalone Tactics plugin
-and WMM_pi plugin (unless you do not get the magnetic variation
-from your instruments).
     
 Watching the numbers jumping on Tactics performance instruments
 maybe fun but to unleash their full power you should understand
@@ -63,44 +46,9 @@ What tactics enhancements can do :
 * There are various settings, which I grouped in a separate tab. To access the preferences screen, right mouse click
   on the tactics_pi window, then select “Preferences ...”
 
-Prerequisites :
----------------
-* You will need to activate OpenGL, if you want to use the chart based functions.
-* SOG, COG from the GPS
-* preferably True Heading from an electronic compass.
-  --> if not available, magnetic heading will do, as long as you have magnetic variance available (either from the GPS RMC
-  sentence or from the wmm_pi plugin)
-* Boat speed through water from a log / “paddlewheel” sensor
-* Apparent wind angle and apparent wind speed
-* Heel sensor which supplies your boat heel angle to O as XDR sentence
-  --> If not available, there's a workaround with manual input
-* >>>> You need a polar file of your boat to use all polar based performance calculations  <<<<
-* Calibrate AWA, Compass HDG/HDT,  STW (Speed through water), and AWS (apparent wind speed) as good as possible.
-  Especially the compass heading calibration tends to be neglected. But this is vital for proper surface current calculation.
 
-Compiling
-=========
 
-* git clone git://github.com/canne/dashboard_tactics_pi.git
 
-Under windows, you must find the file "opencpn.lib" (Visual Studio) which is built in the build directory after compiling opencpn. 
-This file must be copied to the plugins build directory.
-
-Windows build :
----------------
-* cd ..
-* cd build
-* cmake  -T v120_xp ..
-* cmake --build . --target package --config release
-
-Unix style build :
-------------------
-* cd ..
-* cd build
-* cmake ..
-* make
-* make package
-* sudo make install
 
 
 License

@@ -60,7 +60,7 @@ DashboardInstrument_Dial(parent, id, title, cap_flag, 0, 360, 0, 360)
 {
 	SetOptionMarker(5, DIAL_MARKER_SIMPLE, 2);
 	SetOptionLabel(20, DIAL_LABEL_ROTATED);
-	SetOptionMainValue(_T("%.0f"), DIAL_POSITION_INSIDE);
+	SetOptionMainValue(_T("%.1f"), DIAL_POSITION_INSIDE);
 	//    Get a pointer to the opencpn configuration object
 
 	m_pconfig = GetOCPNConfigObject();
@@ -214,7 +214,7 @@ void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
 	DrawBackground(bdc);
     DrawForeground(bdc);
     if (!std::isnan(m_Bearing) && !std::isnan(m_ExtraValueDTW)){
-      //DrawData(bdc, m_Bearing, m_BearingUnit, _T("BRG:%.f"), DIAL_POSITION_TOPLEFT);
+      //DrawData(bdc, m_Bearing, m_BearingUnit, _T("BRG:%.1f"), DIAL_POSITION_TOPLEFT);
       DrawData(bdc, m_ExtraValueDTW, m_ExtraValueDTWUnit, _T("DTW:%.1f"), DIAL_POSITION_TOPLEFT);
       DrawData(bdc, 0, m_ToWpt, _T(""), DIAL_POSITION_TOPRIGHT);
     }
@@ -237,10 +237,10 @@ void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
 //		DrawCurrent(bdc);
 
 	DrawLaylines(bdc);
-	//DrawData(bdc, m_MainValue, m_MainValueUnit, _T("%.0f"), DIAL_POSITION_TOPINSIDE);
+	//DrawData(bdc, m_MainValue, m_MainValueUnit, _T("%.1f"), DIAL_POSITION_TOPINSIDE);
 
-//	 if (!std::isnan(m_predictedSog)) DrawData(bdc, m_predictedSog, _T("kn "), _T("prd.SOG: ~%.1f"), DIAL_POSITION_BOTTOMRIGHT);
-    DrawData(bdc, m_PolSpd_Percent, _T("%"), _T("%.0f"), DIAL_POSITION_BOTTOMRIGHT);
+//	 if (!std::isnan(m_predictedSog)) DrawData(bdc, m_predictedSog, _T("kn "), _T("prd.SOG:\u2245%.1f"), DIAL_POSITION_BOTTOMRIGHT);
+    DrawData(bdc, m_PolSpd_Percent, _T("%"), _T("%.1f"), DIAL_POSITION_BOTTOMRIGHT);
 
 
 }
@@ -317,13 +317,13 @@ void TacticsInstrument_PolarCompass::DrawWindAngles(wxGCDC* dc)
 		brush.SetColour(cl);
 		dc->SetBrush(brush);
 
-		/* this is fix for a +/-180° round instrument, when m_MainValue is supplied as <0..180><L | R>
+		/* this is fix for a +/-180ï¿½ round instrument, when m_MainValue is supplied as <0..180><L | R>
 		* for example TWA & AWA */
 		double data, TwaCog;
 		// head-up = COG, but TWA is based on Hdt --> add the diff here for a correct display
 		TwaCog = m_TWA; //neu, jetzt HDt 
 
-		/* this is fix for a +/-180° round instrument, when m_MainValue is supplied as <0..180><L | R>
+		/* this is fix for a +/-180ï¿½ round instrument, when m_MainValue is supplied as <0..180><L | R>
 		* for example TWA & AWA */
 		if (m_curTack == _T("\u00B0lr"))
 			data = 360 - TwaCog;
@@ -577,9 +577,9 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 	{
 		if (unit == _T("\u00B0"))
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0lr")) // No special display for now, might be XX°< (as in text-only instrument) - no support for B0R
+		else if (unit == _T("\u00B0lr")) // No special display for now, might be XXï¿½< (as in text-only instrument) - no support for B0R
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0rl")) // No special display for now, might be >XX° - no support for B0L
+		else if (unit == _T("\u00B0rl")) // No special display for now, might be >XXï¿½ - no support for B0L
 			text = wxString::Format(format, value) + DEGREE_SIGN;
 		else if (unit == _T("\u00B0T"))
 			text = wxString::Format(format, value) + DEGREE_SIGN + _T("T");
@@ -744,10 +744,10 @@ void TacticsInstrument_PolarCompass::DrawLaylines(wxGCDC* dc)
 		wxPoint vpoints[3];
 		vpoints[0].x = m_cx;
 		vpoints[0].y = m_cy;
-		vpoints[1].x = m_cx + (m_radius * cos(value1));//neu : für Headup = HDT
-		vpoints[1].y = m_cy + (m_radius * sin(value1));//neu : für Headup = HDT
-		vpoints[2].x = m_cx + (m_radius * cos(value2));//neu : für Headup = HDT
-		vpoints[2].y = m_cy + (m_radius * sin(value2));//neu : für Headup = HDT
+		vpoints[1].x = m_cx + (m_radius * cos(value1));//neu : fï¿½r Headup = HDT
+		vpoints[1].y = m_cy + (m_radius * sin(value1));//neu : fï¿½r Headup = HDT
+		vpoints[2].x = m_cx + (m_radius * cos(value2));//neu : fï¿½r Headup = HDT
+		vpoints[2].y = m_cy + (m_radius * sin(value2));//neu : fï¿½r Headup = HDT
 		dc->DrawArc(vpoints[2], vpoints[1], vpoints[0]);
 
 		/*****************************************************************************************

@@ -1,0 +1,26 @@
+$ cat ./.git/info/exclude
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+*~
+*#
+.#*
+.DS_Store
+/bin/.DS_Store
+build/
+buildwin/.DS_Store
+buildosx/InstallOSX/.DS_Store
+debian/.DS_Store
+debian/source/.DS_Store
+include/.DS_Store
+include/nlohmann/.DS_Store
+ocpninclude/GL/.DS_Store
+ocpninclude/WX/.DS_Store
+ocpnsrc/.DS_Store
+po/.DS_Store
+src/.DS_Store
+src/nmea0183/.DS_Store
+src/wx/.DS_Store
+Src/wxJSON/.DS_Store

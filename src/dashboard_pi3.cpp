@@ -738,7 +738,7 @@ wxBitmap *dashboard_pi::GetPlugInBitmap()
 wxString dashboard_pi::GetCommonName()
 {
 #ifdef _TACTICSPI_H_
-    return _("Dashboard_Tactics");
+    return _("Dashboard");
 #else
     return _("Dashboard");
 #endif // _TACTICSPI_H_
@@ -747,7 +747,7 @@ wxString dashboard_pi::GetCommonName()
 wxString dashboard_pi::GetShortDescription()
 {
 #ifdef _TACTICSPI_H_
-    return _("Dashboard and Tactics");
+    return _("Dashboard");
 #else
     return _("Dashboard");
 #endif // _TACTICSPI_H_
@@ -784,8 +784,8 @@ void dashboard_pi::pSendSentenceToAllInstruments(
     }
 }
 /* Porting note: with Tactics new, virtual NMEA sentences are introduced, like
-   the true wind calculations. Likewise, the bearing to the Tactics WP
-   (if it exists) to performance instruments as a specific NMEA sentence having
+   the true wind calculations. Likewise, the bearing to the TacticsWP (if it
+   exists) to performance instruments as a specific NMEA sentence having
    a special unit. Current speed and leeway are also virtual, calculated
    NMEA sentences. To the outside world we can publish target angle information
    and similar to be displayed to the helmsman on a performance instruments.
@@ -832,6 +832,10 @@ void dashboard_pi::SendSentenceToAllInstruments(
             this->SetNMEASentence_Arm_TWD_Watchdog();
             this->SetNMEASentence_Arm_TWS_Watchdog();
         } // then calculated wind values required and need to be distributed
+        else {
+            this->SetCalcVariables(st, value, unit);
+            pSendSentenceToAllInstruments( st, value, unit );
+        } // else send the received wind data, anyway
     } // then Tactics true wind calculations
     else {
         // we have sentence which may or may not require correction
@@ -1689,14 +1693,14 @@ void dashboard_pi::SetNMEASentence( wxString &sentence )
                             SendSentenceToAllInstruments(OCPN_DBP_STC_HEEL, xdrdata, xdrunit);
                         }
                     }
-                    //NASA style Water Temp
+                    //Nasa style water temp
                     if (m_NMEA0183.Xdr.TransducerInfo[i].TransducerName == _T("ENV_WATER_T")){
 #ifdef _TACTICSPI_H_
                         double TemperatureValue               = xdrdata;
                         wxString TemperatureUnitOfMeasurement = m_NMEA0183.Xdr.TransducerInfo[i].UnitOfMeasurement;
                         checkNMEATemperatureDataAndUnit( TemperatureValue, TemperatureUnitOfMeasurement );
                         SendSentenceToAllInstruments(
-                            OCPN_DBP_STC_TMP, TemperatureValue, TemperatureUnitOfMeasurement ); // Error is here was _ATMP should be _TMP ?
+                            OCPN_DBP_STC_ATMP, TemperatureValue, TemperatureUnitOfMeasurement );
 #else
                         SendSentenceToAllInstruments(
                             OCPN_DBP_STC_TMP,
@@ -2103,7 +2107,7 @@ bool dashboard_pi::LoadConfig( void )
 
             DashboardWindowContainer *cont = new DashboardWindowContainer( NULL, MakeName(),
 #ifdef _TACTICSPI_H_
-                                                                           _("Dashboard_Tactics"),
+                                                                           _("Dashboard"),
 #else
                                                                            _("Dashboard"),
 #endif // _TACTICSPI_H_
@@ -2122,7 +2126,7 @@ bool dashboard_pi::LoadConfig( void )
                 wxString caption;
                 pConf->Read( _T("Caption"), &caption,
 #ifdef _TACTICSPI_H_
-                             _("Dashboard_Tactics") );
+                             _("Dashboard") );
 #else
                              _("Dashboard") );
 #endif // _TACTICSPI_H_
@@ -3053,7 +3057,7 @@ int wxCALLBACK InstrumentListSortCallback (wxIntPtr item1, wxIntPtr item2, wxInt
             return -1;
         } // first instrument is Dashboard and second is Tactics, keep that way
     } // else check the other way around
-    // Both are the same, either Tactics or Dashboard, let the alphabetical order prevail
+    // Both are the same, either Tactics or Dashboard, let the alphabeting order prevail
     return 0;
 }
 #endif // _TACTICSPI_H
@@ -3405,11 +3409,11 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
             break;
         case ID_DBP_I_COG:
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_COG, _T("%.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_COG, _T("%.0f") );
             break;
         case ID_DBP_M_COG:
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_MCOG, _T("%.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_MCOG, _T("%.0f") );
             break;
         case ID_DBP_D_COG:
             instrument = new DashboardInstrument_Compass( this, wxID_ANY,
@@ -3438,17 +3442,17 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
         case ID_DBP_I_HDT: //true heading
             // TODO: Option True or Magnetic
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_HDT, _T("%.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_HDT, _T("%.0f") );
             break;
         case ID_DBP_I_HDM:  //magnetic heading
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_HDM, _T("%.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_HDM, _T("%.0f") );
             break;
         case ID_DBP_D_AW:
         case ID_DBP_D_AWA:
             instrument = new DashboardInstrument_Wind( this, wxID_ANY,
                                                        getInstrumentCaption( id ), OCPN_DBP_STC_AWA );
-            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.1f"),
+            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.0f"),
                                                                              DIAL_POSITION_BOTTOMLEFT );
             ( (DashboardInstrument_Dial *) instrument )->SetOptionExtraValue(
                 OCPN_DBP_STC_AWS, _T("%.1f"), DIAL_POSITION_INSIDE );
@@ -3472,7 +3476,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
         case ID_DBP_D_TW: //True Wind angle +-180° on boat axis
             instrument = new DashboardInstrument_TrueWindAngle( this, wxID_ANY,
                                                                 getInstrumentCaption( id ), OCPN_DBP_STC_TWA );
-            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.1f"),
+            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.0f"),
                                                                              DIAL_POSITION_BOTTOMLEFT );
             ( (DashboardInstrument_Dial *) instrument )->SetOptionExtraValue(
                 OCPN_DBP_STC_TWS, _T("%.1f"), DIAL_POSITION_INSIDE );
@@ -3480,7 +3484,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
         case ID_DBP_D_AWA_TWA: //App/True Wind angle +-180° on boat axis
             instrument = new DashboardInstrument_AppTrueWindAngle(this, wxID_ANY,
                                                                   getInstrumentCaption(id), OCPN_DBP_STC_AWA | OCPN_DBP_STC_TWA);
-            ((DashboardInstrument_Dial *)instrument)->SetOptionMainValue(_T("%.1f"),
+            ((DashboardInstrument_Dial *)instrument)->SetOptionMainValue(_T("%.0f"),
                                                                          DIAL_POSITION_NONE);
             ((DashboardInstrument_Dial *)instrument)->SetOptionExtraValue(
                 OCPN_DBP_STC_TWS | OCPN_DBP_STC_AWS, _T("%.1f"), DIAL_POSITION_NONE);
@@ -3488,7 +3492,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
         case ID_DBP_D_TWD: //True Wind direction
             instrument = new DashboardInstrument_WindCompass( this, wxID_ANY,
                                                               getInstrumentCaption( id ), OCPN_DBP_STC_TWD );
-            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.1f"),
+            ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%.0f"),
                                                                              DIAL_POSITION_BOTTOMLEFT );
             ( (DashboardInstrument_Dial *) instrument )->SetOptionExtraValue(
                 OCPN_DBP_STC_TWS2, _T("%.1f"), DIAL_POSITION_INSIDE );
@@ -3503,7 +3507,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
             break;
         case ID_DBP_I_TMP: //water temperature
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TMP, _T("%2.2f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TMP, _T("%2.1f") );
             break;
         case ID_DBP_I_MDA: //barometric pressure
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
@@ -3519,9 +3523,9 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
             ( (DashboardInstrument_Dial *) instrument )->SetOptionMainValue( _T("%5.3f"),
                                                                              DIAL_POSITION_INSIDE );
             break;
-        case ID_DBP_I_ATMP: //Air temperature
+        case ID_DBP_I_ATMP: //air temperature
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_ATMP, _T("%2.2f") ); // NMEA is 2 decimal places
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_ATMP, _T("%2.1f") );
             break;
         case ID_DBP_I_VLW1: // Trip Log
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
@@ -3535,11 +3539,11 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
 
         case ID_DBP_I_TWA: //true wind angle
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TWA, _T("%5.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TWA, _T("%5.0f") );
             break;
         case ID_DBP_I_TWD: //true wind direction
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TWD, _T("%5.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_TWD, _T("%5.0f") );
             break;
         case ID_DBP_I_TWS: // true wind speed
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
@@ -3547,7 +3551,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
             break;
         case ID_DBP_I_AWA: //apparent wind angle
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_AWA, _T("%5.1f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_AWA, _T("%5.0f") );
             break;
         case ID_DBP_I_VMG:
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
@@ -3565,7 +3569,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
             break;
         case ID_DBP_I_RSA:
             instrument = new DashboardInstrument_Single( this, wxID_ANY,
-                                                         getInstrumentCaption( id ), OCPN_DBP_STC_RSA, _T("%5.2f") );
+                                                         getInstrumentCaption( id ), OCPN_DBP_STC_RSA, _T("%5.0f") );
             break;
         case ID_DBP_D_RSA:
             instrument = new DashboardInstrument_RudderAngle( this, wxID_ANY,
@@ -3631,7 +3635,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
 #ifdef _TACTICSPI_H_
 		case ID_DBP_I_CURRDIR:
 			instrument = new DashboardInstrument_Single(this, wxID_ANY,
-				getInstrumentCaption(id), OCPN_DBP_STC_CURRDIR, _T("%2.1f"));
+				getInstrumentCaption(id), OCPN_DBP_STC_CURRDIR, _T("%2.0f"));
 			break;
 		case ID_DBP_I_CURRSPD:
 			instrument = new DashboardInstrument_Single(this, wxID_ANY,
@@ -3684,7 +3688,7 @@ void DashboardWindow::SetInstrumentList( wxArrayInt list )
                 this, wxID_ANY,
                 getInstrumentCaption(id),
                 OCPN_DBP_STC_BRG | OCPN_DBP_STC_TWD |
-                OCPN_DBP_STC_LAT | OCPN_DBP_STC_LON, _T("%5.1f"));
+                OCPN_DBP_STC_LAT | OCPN_DBP_STC_LON, _T("%5.0f"));
             ((TacticsInstrument_PerformanceSingle *)
              instrument)->SetDisplayType(TWAMARK);
             break;

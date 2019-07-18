@@ -52,7 +52,7 @@ bool g_bDisplayCurrentOnChart;
 wxString g_path_to_PolarFile;
 PlugIn_Route *m_pRoute = NULL;
 PlugIn_Waypoint *m_pMark = NULL;
-wxString g_sMarkGUID = L"\u2191TacticsWP";
+wxString g_sMarkGUID = L"Tactics WP";
 double g_dmark_lat = NAN;
 double g_dmark_lon = NAN;
 double g_dcur_lat = NAN;
@@ -702,7 +702,7 @@ double CalcPolarTimeToMark(double distance, double twa, double tws)
 {
     if ( !BoatPolar->isValid() ) {
         if ( g_iDbgRes_Polar_Status != DBGRES_POLAR_INVALID ) {
-            wxLogMessage ("dashboard_tactics_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
+            wxLogMessage ("dashboard_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
             g_iDbgRes_Polar_Status = DBGRES_POLAR_INVALID;
         } // then debug print
         return NAN;
@@ -825,7 +825,7 @@ bool tactics_pi::TacticsRenderOverlay(wxDC &dc, PlugIn_ViewPort *vp)
         b_tactics_dc_message_shown = true;
 
 		wxString message(_("You have to turn on OpenGL to use chart overlay "));
-		wxMessageDialog dlg(GetOCPNCanvasWindow(), message, _T("dashboard_tactics_pi message"), wxOK);
+		wxMessageDialog dlg(GetOCPNCanvasWindow(), message, _T("dashboard_pi message"), wxOK);
 		dlg.ShowModal();
 	}
 	return false;
@@ -1057,7 +1057,7 @@ void tactics_pi::DoRenderLaylineGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort
             if ( !BoatPolar->isValid() ) {
                 if ( g_iDbgRes_Polar_Status != DBGRES_POLAR_INVALID ) {
                     wxLogMessage (
-                        "dashboard_tactics_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
+                        "dashboard_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
                     g_iDbgRes_Polar_Status = DBGRES_POLAR_INVALID;
                 } // then debug print
                 return;
@@ -1367,7 +1367,7 @@ void tactics_pi::DrawPolar(PlugIn_ViewPort *vp, wxPoint pp, double PolarAngle)
         return;
     if ( !BoatPolar->isValid() ) {
         if ( g_iDbgRes_Polar_Status != DBGRES_POLAR_INVALID ) {
-            wxLogMessage ("dashboard_tactics_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
+            wxLogMessage ("dashboard_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
             g_iDbgRes_Polar_Status = DBGRES_POLAR_INVALID;
         } // then debug print
         return;
@@ -1829,35 +1829,35 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     // Here's the logic depending of the data and settings
     if ( st != OCPN_DBP_STC_AWS ) { // this is the data we're waiting
         if ( m_iDbgRes_TW_Calc_AWS_STC == DBGRES_AWS_STC_UNKNOWN ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: waiting on an AWS sentence.");
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: waiting on an AWS sentence.");
             m_iDbgRes_TW_Calc_AWS_STC = DBGRES_AWS_STC_WAIT;
         }
         return false;
     } // then no AWS sentence            
     if ( std::isnan(value) ) { // but it can be sent by the AWS watchdog
         if ( ( m_iDbgRes_TW_Calc_AWS_STC == DBGRES_AWS_STC_WAIT ) || ( m_iDbgRes_TW_Calc_AWS_STC == DBGRES_AWS_STC_AVAILABLE ) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: invalid AWS or timeout on it.");
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: invalid AWS or timeout on it.");
             m_iDbgRes_TW_Calc_AWS_STC = DBGRES_AWS_STC_AVAILABLE_INVALID;
         }
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
         return false; // in this case no TW calculations, move on
     } // then invalid contents
     if ( ( m_iDbgRes_TW_Calc_AWS_STC == DBGRES_AWS_STC_WAIT ) || ( m_iDbgRes_TW_Calc_AWS_STC == DBGRES_AWS_STC_AVAILABLE_INVALID ) ) {
-        wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: a valid AWS received, now (%f).", value);
+        wxLogMessage ("dashboard_pi: Tactics true wind calculations: a valid AWS received, now (%f).", value);
         m_iDbgRes_TW_Calc_AWS_STC = DBGRES_AWS_STC_AVAILABLE;
     } // then AWS sentence with valid contents
     
     if ( g_bForceTrueWindCalculation ) {
         if ( m_bTrueWind_available ) { // Force TW calc. selection no effect
             if ( ( m_iDbgRes_TW_Calc_Force != DBGRES_FORCE_SELECTED_TW_AVAILABLE ) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: TW data available but forced calculation requested.");
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: TW data available but forced calculation requested.");
                 m_iDbgRes_TW_Calc_Force = DBGRES_FORCE_SELECTED_TW_AVAILABLE;
             } // then debug messsage out
         } // the true wind is available from instruments
         else {
             if ( ( m_iDbgRes_TW_Calc_Force != DBGRES_FORCE_SELECTED_NO_TW_AVAILABLE ) ) {
                 wxLogMessage (
-                    "dashboard_tactics_pi: Tactics true wind calculations: Forced calculation requested but no TW data as for now..");
+                    "dashboard_pi: Tactics true wind calculations: Forced calculation requested but no TW data as for now..");
                 m_iDbgRes_TW_Calc_Force = DBGRES_FORCE_SELECTED_NO_TW_AVAILABLE;
             } // no debug message yet
         } // else no true wind available
@@ -1865,7 +1865,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     else {
         if ( m_bTrueWind_available ) { // TW calculations not forced and there is TW available from instruments
             if ( ( m_iDbgRes_TW_Calc_Force != DBGRES_FORCE_NOT_SELECTED_TW_AVAILABLE ) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: TW data available and no forced calculation requested.");
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: TW data available and no forced calculation requested.");
                 m_iDbgRes_TW_Calc_Force = DBGRES_FORCE_NOT_SELECTED_TW_AVAILABLE;
             } // no debug message yet
             m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1873,7 +1873,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
         } // the true wind is available from instruments
         else {
             if ( ( m_iDbgRes_TW_Calc_Force != DBGRES_FORCE_NOT_SELECTED_NO_TW_AVAILABLE ) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: No forced calculation req., no TW data: normal proceeding.");
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: No forced calculation req., no TW data: normal proceeding.");
                 m_iDbgRes_TW_Calc_Force = DBGRES_FORCE_NOT_SELECTED_NO_TW_AVAILABLE;
             }  // no debug message yet
         } // else no true wind available
@@ -1885,7 +1885,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     
     if ( std::isnan(mAWA) ) {
         if ( ( m_iDbgRes_TW_Calc_AWA != DBGRES_MVAL_INVALID) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has no valid intenal AWA value yet.");
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has no valid intenal AWA value yet.");
             m_iDbgRes_TW_Calc_AWA = DBGRES_MVAL_INVALID;
         } // then debug print
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1894,13 +1894,13 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     else {
         if ( mAWA >= 0.0 ) {
             if ( ( m_iDbgRes_TW_Calc_AWA != DBGRES_MVAL_AVAILABLE) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has a valid internal AWA value, now (%f).", mAWA);
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has a valid internal AWA value, now (%f).", mAWA);
                 m_iDbgRes_TW_Calc_AWA = DBGRES_MVAL_AVAILABLE;
             } // then debug print
         } // then valid data above zero
         else {
             if ( ( m_iDbgRes_TW_Calc_AWA != DBGRES_MVAL_IS_ZERO) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has internal AWA value but it is 0.0.", mAWA);
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has internal AWA value but it is 0.0.", mAWA);
                 m_iDbgRes_TW_Calc_AWA = DBGRES_MVAL_IS_ZERO;
             } // then debug print
             m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1910,7 +1910,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
 
     if ( std::isnan(mAWS) ) {
         if ( ( m_iDbgRes_TW_Calc_AWS != DBGRES_MVAL_INVALID) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has no valid intenal AWS value yet.");
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has no valid intenal AWS value yet.");
             m_iDbgRes_TW_Calc_AWS = DBGRES_MVAL_INVALID;
         } // then debug print
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1919,13 +1919,13 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     else {
         if ( mAWS >= 0.0 ) {
             if ( ( m_iDbgRes_TW_Calc_AWS != DBGRES_MVAL_AVAILABLE) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has a valid internal AWS value (%f).", mAWS);
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has a valid internal AWS value (%f).", mAWS);
                 m_iDbgRes_TW_Calc_AWS = DBGRES_MVAL_AVAILABLE;
             } // then debug print
         } // then valid data above zero
         else {
             if ( ( m_iDbgRes_TW_Calc_AWS != DBGRES_MVAL_IS_ZERO) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has internal AWS value but it is 0.0.", mAWS);
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has internal AWS value but it is 0.0.", mAWS);
                 m_iDbgRes_TW_Calc_AWS = DBGRES_MVAL_IS_ZERO;
             } // then debug print
             m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1935,7 +1935,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
 
     if ( std::isnan(mHdt) ) {
         if ( ( m_iDbgRes_TW_Calc_Hdt != DBGRES_MVAL_INVALID) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has no valid intenal true heading value yet.");
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has no valid intenal true heading value yet.");
             m_iDbgRes_TW_Calc_Hdt = DBGRES_MVAL_INVALID;
         } // then debug print
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1943,20 +1943,20 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     } // then NaN Hdt
     else {
         if ( ( m_iDbgRes_TW_Calc_Hdt != DBGRES_MVAL_AVAILABLE) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has an internal true heading value, now (%f).", mHdt);
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has an internal true heading value, now (%f).", mHdt);
             m_iDbgRes_TW_Calc_Hdt = DBGRES_MVAL_AVAILABLE;
         } // then debug print
     } // else no NaN Hdt
 
     if ( (mAWAUnit != _("")) ) {
         if ( ( m_iDbgRes_TW_Calc_AWAUnit != DBGRES_MVAL_AVAILABLE ) ) {
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: AWA unit is availabe, now (%s).", mAWAUnit);
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: AWA unit is availabe, now (%s).", mAWAUnit);
             m_iDbgRes_TW_Calc_AWAUnit = DBGRES_MVAL_AVAILABLE;
         } // then debug print
     } // then valid AWA unit
     else {
         if ( ( m_iDbgRes_TW_Calc_AWAUnit != DBGRES_MVAL_IS_ZERO) ) {
-                wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: Tactics has internal AWA unit but it is empty.");
+                wxLogMessage ("dashboard_pi: Tactics true wind calculations: Tactics has internal AWA unit but it is empty.");
                 m_iDbgRes_TW_Calc_AWAUnit = DBGRES_MVAL_IS_ZERO;
         } // then debug print
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1969,7 +1969,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
         if ( std::isnan(mSOG) ) {
             if ( ( m_iDbgRes_TW_Calc_SOG != DBGRES_MVAL_INVALID) ) {
                 wxLogMessage (
-                    "dashboard_tactics_pi: Tactics true wind calculations: SOG calculations requested but Tactics has no valid intenal SOG value.");
+                    "dashboard_pi: Tactics true wind calculations: SOG calculations requested but Tactics has no valid intenal SOG value.");
                 m_iDbgRes_TW_Calc_SOG = DBGRES_MVAL_INVALID;
             } // then debug print
             m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1979,13 +1979,13 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
             if ( mSOG > 0.0 ) {
                 if ( ( m_iDbgRes_TW_Calc_SOG != DBGRES_MVAL_AVAILABLE) ) {
                     wxLogMessage (
-                        "dashboard_tactics_pi: Tactics true wind calculations: SOG calc. requested, a valid internal SOG value, now (%f).", mSOG);
+                        "dashboard_pi: Tactics true wind calculations: SOG calc. requested, a valid internal SOG value, now (%f).", mSOG);
                     m_iDbgRes_TW_Calc_SOG = DBGRES_MVAL_AVAILABLE;
                 } // then debug print
             } // then valid data above zero
             else {
                 if ( ( m_iDbgRes_TW_Calc_SOG != DBGRES_MVAL_IS_ZERO) ) {
-                    wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: SOG calc. requested, but SOG value is 0.0.", mSOG);
+                    wxLogMessage ("dashboard_pi: Tactics true wind calculations: SOG calc. requested, but SOG value is 0.0.", mSOG);
                     m_iDbgRes_TW_Calc_SOG = DBGRES_MVAL_IS_ZERO;
                 } // then debug print
                 m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -1997,7 +1997,7 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
         if ( std::isnan(mStW) ) {
             if ( ( m_iDbgRes_TW_Calc_StW != DBGRES_MVAL_INVALID) ) {
                 wxLogMessage (
-                    "dashboard_tactics_pi: Tactics true wind calculations: StW calculations requested but Tactics has no valid internal StW value.");
+                    "dashboard_pi: Tactics true wind calculations: StW calculations requested but Tactics has no valid internal StW value.");
                 m_iDbgRes_TW_Calc_StW = DBGRES_MVAL_INVALID;
             } // then debug print
             m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -2007,13 +2007,13 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
             if ( mStW > 0.0 ) {
                 if ( ( m_iDbgRes_TW_Calc_StW != DBGRES_MVAL_AVAILABLE) ) {
                     wxLogMessage (
-                        "dashboard_tactics_pi: Tactics true wind calculations: StW calc. requested, a valid internal StW value, now (%f).", mStW);
+                        "dashboard_pi: Tactics true wind calculations: StW calc. requested, a valid internal StW value, now (%f).", mStW);
                     m_iDbgRes_TW_Calc_StW = DBGRES_MVAL_AVAILABLE;
                 } // then debug print
             } // then valid data above zero
             else {
                 if ( ( m_iDbgRes_TW_Calc_StW != DBGRES_MVAL_IS_ZERO) ) {
-                    wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: StW calc. requested, but StW value is 0.0.", mStW);
+                    wxLogMessage ("dashboard_pi: Tactics true wind calculations: StW calc. requested, but StW value is 0.0.", mStW);
                     m_iDbgRes_TW_Calc_StW = DBGRES_MVAL_IS_ZERO;
                 } // then debug print
                 m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_FALSE;
@@ -2025,9 +2025,9 @@ bool tactics_pi::SendSentenceToAllInstruments_LaunchTrueWindCalculations(
     // all OK!
     if ( ( m_iDbgRes_TW_Calc_Lau != DBGRES_EXEC_TRUE) ) {
         if ( m_iDbgRes_TW_Calc_Exe == DBGRES_EXEC_TRUE )
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: checks OK, execution of algorithm will continue.", mStW);
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: checks OK, execution of algorithm will continue.", mStW);
         else
-            wxLogMessage ("dashboard_tactics_pi: Tactics true wind calculations: checks OK, execution of algorithm will be launched.", mStW);
+            wxLogMessage ("dashboard_pi: Tactics true wind calculations: checks OK, execution of algorithm will be launched.", mStW);
         m_iDbgRes_TW_Calc_Lau = DBGRES_EXEC_TRUE;
     } // then debug print
     return true;
@@ -2161,7 +2161,7 @@ bool tactics_pi::SendSentenceToAllInstruments_GetCalculatedTrueWind(
     unit_twd = _T("\u00B0T");
     if ( ( m_iDbgRes_TW_Calc_Exe != DBGRES_EXEC_TRUE ) ) {
         wxLogMessage (
-            "dashboard_tactics_pi: Tactics true wind calculations: algorithm is running and returning now TWA %f '%s', TWS %f '%s, TWD %f '%s'.",
+            "dashboard_pi: Tactics true wind calculations: algorithm is running and returning now TWA %f '%s', TWS %f '%s, TWD %f '%s'.",
             (std::isnan(value_twa)?999.99:value_twa), unit_twa,
             (std::isnan(value_tws)?999.99:value_tws), unit_tws,
             (std::isnan(value_twd)?999.99:value_twd), unit_twd );
@@ -2495,7 +2495,7 @@ void tactics_pi::CalculatePerformanceData(void)
 {
     if ( !BoatPolar->isValid() ) {
         if ( g_iDbgRes_Polar_Status != DBGRES_POLAR_INVALID ) {
-            wxLogMessage ("dashboard_tactics_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
+            wxLogMessage ("dashboard_pi: >>> Missing or invalid Polar file: no Performance data, Laylines, Polar graphs available. <<<");
             g_iDbgRes_Polar_Status = DBGRES_POLAR_INVALID;
         } // then debug print
         return;
@@ -2739,7 +2739,7 @@ bool tactics_pi::SetNMEASentenceMWD_NKEbug(double SentenceWindSpeedKnots)
         return false;
     if ((m_VWR_AWA < 8.0) && (SentenceWindSpeedKnots > mTWS*1.7)){
      wxLogMessage(
-            "dashboard_tactics: NKE MWD-Sentence filtered, see m_bNKE_TrueWindTableBug setting. MWD-Spd=%f,mTWS=%f,VWR_AWA=%f,NKE_BUG=%d",
+            "dashboard: NKE MWD-Sentence filtered, see m_bNKE_TrueWindTableBug setting. MWD-Spd=%f,mTWS=%f,VWR_AWA=%f,NKE_BUG=%d",
             SentenceWindSpeedKnots, mTWS, m_VWR_AWA,
             m_bNKE_TrueWindTableBug);
         return true;
@@ -2785,7 +2785,7 @@ void TacticsPreferencesDialog::TacticsPreferencesPanel()
 
 	wxBoxSizer* itemBoxSizer06 = new wxBoxSizer(wxVERTICAL);
 	itemPanelNotebook03->SetSizer(itemBoxSizer06);
-	m_itemNotebook->AddPage(itemPanelNotebook03, _(L"\u2191Tactics Performance Parameters"));
+	m_itemNotebook->AddPage(itemPanelNotebook03, _(L"Tactics Performance Parameters"));
 	//****************************************************************************************************
 	wxStaticBox* itemStaticBox05 = new wxStaticBox(itemPanelNotebook03, wxID_ANY, _("Laylines"));
 	wxStaticBoxSizer* itemStaticBoxSizer05 = new wxStaticBoxSizer(itemStaticBox05, wxHORIZONTAL);
@@ -3036,7 +3036,7 @@ void TacticsPreferencesDialog::TacticsPreferencesPanel()
 	m_ShowWindbarbOnChart->SetToolTip(_("The default on program startup"));
 
 	//****************************************************************************************************
-	wxStaticBox* itemStaticBox09 = new wxStaticBox(itemPanelNotebook03, wxID_ANY, _(L"Polar - NOTE: \u2191Tactics instruments need your boat's polars!"));
+	wxStaticBox* itemStaticBox09 = new wxStaticBox(itemPanelNotebook03, wxID_ANY, _(L"Polar - NOTE: Tactics instruments need your boat's polars!"));
 	wxStaticBoxSizer* itemStaticBoxSizer09 = new wxStaticBoxSizer(itemStaticBox09, wxHORIZONTAL);
 	itemBoxSizer06->Add(itemStaticBoxSizer09, 0, wxEXPAND | wxALL, m_border_size);
 	wxFlexGridSizer *itemFlexGridSizer09 = new wxFlexGridSizer(2);
@@ -3212,19 +3212,19 @@ TacticsWindow::~TacticsWindow()
 void TacticsWindow::InsertTacticsIntoContextMenu ( wxMenu *contextMenu )
 {
     wxMenuItem* btnShowLaylines = contextMenu->AppendCheckItem(
-        ID_DASH_LAYLINE, _(L"\u2191Show Laylines"));
+        ID_DASH_LAYLINE, _(L"Show Laylines"));
     btnShowLaylines->Check(m_plugin->GetLaylineVisibility());
 
     wxMenuItem* btnShowCurrent = contextMenu->AppendCheckItem(
-        ID_DASH_CURRENT, _(L"\u2191Show Current"));
+        ID_DASH_CURRENT, _(L"Show Current"));
     btnShowCurrent->Check(m_plugin->GetCurrentVisibility());
 
 	wxMenuItem* btnShowWindbarb = contextMenu->AppendCheckItem(
-        ID_DASH_WINDBARB, _(L"\u2191Show Windbarb"));
+        ID_DASH_WINDBARB, _(L"Show Windbarb"));
 	btnShowWindbarb->Check(m_plugin->GetWindbarbVisibility());
 
 	wxMenuItem* btnShowPolar = contextMenu->AppendCheckItem(
-        ID_DASH_POLAR, _(L"\u2191Show Polar"));
+        ID_DASH_POLAR, _(L"Show Polar"));
 	btnShowPolar->Check(m_plugin->GetPolarVisibility());
 
     return;

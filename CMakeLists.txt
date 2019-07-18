@@ -1,7 +1,7 @@
 ##---------------------------------------------------------------------------
 ## Author:      Dave Register
 ## ***************************************************************************
-## *   Copyright (C) 2010 by David S. Register                               *
+## *   Copyright (C) 2010 - 2019 by David S. Register                        *
 ## *   This program is free software; you can redistribute it and/or modify  *
 ## *   it under the terms of the GNU General Public License as published by  *
 ## *   the Free Software Foundation; either version 2 of the License, or     *
@@ -27,17 +27,17 @@ CMAKE_POLICY(SET CMP0043 NEW)
 SET(TACTICS_INSTRUMENTS ON)
 
 IF (TACTICS_INSTRUMENTS)
-   PROJECT(dashboard_tactics_pi)
-   SET(PACKAGE_NAME dashboard_tactics_pi)
-   SET(VERBOSE_NAME DashboardTactics)
-   SET(TITLE_NAME DashboardTactics)
+   PROJECT(dashboard_pi)
+   SET(PACKAGE_NAME dashboard_pi)
+   SET(VERBOSE_NAME Dashboard)
+   SET(TITLE_NAME Dashboard)
 ELSE (TACTICS_INSTRUMENTS)
    PROJECT(dashboard_pi)
    SET(PACKAGE_NAME dashboard_pi)
    SET(VERBOSE_NAME Dashboard)
    SET(TITLE_NAME Dashboard)
 ENDIF (TACTICS_INSTRUMENTS)
-SET(CPACK_PACKAGE_CONTACT "TBD")
+SET(CPACK_PACKAGE_CONTACT "Beta Beta")
 
 IF (TACTICS_INSTRUMENTS)
   ADD_DEFINITIONS(-D_INCLUDE_TACTICS_PI_)
