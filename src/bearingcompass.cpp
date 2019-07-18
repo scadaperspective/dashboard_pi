@@ -61,7 +61,7 @@ DashboardInstrument_Dial(parent, id, title, cap_flag, 0, 360, 0, 360)
 {
 	SetOptionMarker(5, DIAL_MARKER_SIMPLE, 2);
 	SetOptionLabel(20, DIAL_LABEL_ROTATED);
-	SetOptionMainValue(_T("%.0f"), DIAL_POSITION_INSIDE);
+	SetOptionMainValue(_T("%.1f"), DIAL_POSITION_INSIDE);
 	//    Get a pointer to the opencpn configuration object
 
 	m_pconfig = GetOCPNConfigObject();
@@ -222,7 +222,7 @@ void TacticsInstrument_BearingCompass::Draw(wxGCDC* bdc)
 	DrawForeground(bdc);
 
 	DrawLaylines(bdc);
-    if (!std::isnan(m_MainValue)) DrawData(bdc, m_MainValue, m_MainValueUnit, _T("%.0f"), DIAL_POSITION_TOPINSIDE);
+    if (!std::isnan(m_MainValue)) DrawData(bdc, m_MainValue, m_MainValueUnit, _T("%.1f"), DIAL_POSITION_TOPINSIDE);
 
     if (!std::isnan(m_predictedSog)) DrawData(bdc, m_predictedSog, getUsrSpeedUnit_Plugin(g_iDashSpeedUnit), _T("prd.SOG:\u2245%.1f"), DIAL_POSITION_BOTTOMRIGHT);
 

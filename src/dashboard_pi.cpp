@@ -738,7 +738,7 @@ wxBitmap *dashboard_pi::GetPlugInBitmap()
 wxString dashboard_pi::GetCommonName()
 {
 #ifdef _TACTICSPI_H_
-    return _("Dashboard_Tactics");
+    return _("Dashboard");
 #else
     return _("Dashboard");
 #endif // _TACTICSPI_H_
@@ -747,7 +747,7 @@ wxString dashboard_pi::GetCommonName()
 wxString dashboard_pi::GetShortDescription()
 {
 #ifdef _TACTICSPI_H_
-    return _("Dashboard and Tactics");
+    return _("Dashboard");
 #else
     return _("Dashboard");
 #endif // _TACTICSPI_H_
@@ -756,11 +756,11 @@ wxString dashboard_pi::GetShortDescription()
 wxString dashboard_pi::GetLongDescription()
 {
 #ifdef _TACTICSPI_H_
-    return _("Dashboard PlugIn with Tactics for OpenCPN\n\
-Provides navigation instruments and performance functions from NMEA sources.");
+    return _("Dashboard PlugIn intergrating Tactics for OpenCPN\n\
+Provides navigation instruments and performance functions from NMEA0183 sources.");
 #else
     return _("Dashboard PlugIn for OpenCPN\n\
-Provides navigation instrument display from NMEA source.");
+Provides navigation instrument display from NMEA0183 source.");
 #endif // _TACTICSPI_H_
 
 }
