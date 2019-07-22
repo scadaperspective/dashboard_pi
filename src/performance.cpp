@@ -219,7 +219,7 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
     else if (m_displaytype == POLARTARGETVMGANGLE){
       TargetxMG targetVMG = BoatPolar->Calc_TargetVMG(mTWA, mTWS);
       if (!std::isnan(targetVMG.TargetAngle))
-	m_data = wxString::Format("%.0f", targetVMG.TargetAngle) + _T("\u00B0");
+	m_data = wxString::Format("%.1f", targetVMG.TargetAngle) + _T("\u00B0");
       else
 	m_data = _T("no polar data");
     }
@@ -268,7 +268,7 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
       if (!std::isnan(mTWS) && !std::isnan(mTWD) && mBRG >= 0)
 	BoatPolar->Calc_TargetCMG2(mTWS, mTWD, mBRG, &TCMGMax, &TCMGMin);
       if (!std::isnan(TCMGMax.TargetAngle))
-	m_data = wxString::Format("%.0f", TCMGMax.TargetAngle) + _T("\u00B0");
+	m_data = wxString::Format("%.1f", TCMGMax.TargetAngle) + _T("\u00B0");
       else
 	m_data = _T("no polar data");
     }
@@ -278,7 +278,7 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
   else if (m_displaytype == TWAMARK){
     if (mBRG>=0 && !std::isnan(mTWD)) {
       double markBrG = getDegRange(mBRG, mTWD);
-      m_data = wxString::Format("%.0f",(double) markBrG) + _T("\u00B0");
+      m_data = wxString::Format("%.1f",(double) markBrG) + _T("\u00B0");
     }
     else
       m_data = _T("---");
