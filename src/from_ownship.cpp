@@ -103,7 +103,7 @@ void DashboardInstrument_FromOwnship::SetData(
     {
         double brg,dist;
         DistanceBearingMercator_Plugin(c_lat, c_lon, s_lat, s_lon, &brg, &dist);
-        m_data1.Printf(_T("%03d ") + DEGREE_SIGN,(int)brg);
+        m_data1.Printf(_T("%03.1f ") + DEGREE_SIGN,(double)brg); // was %03d
         m_data2.Printf(_T("%3.2f %s"), toUsrDistance_Plugin(dist, g_iDashDistanceUnit), getUsrDistanceUnit_Plugin(g_iDashDistanceUnit).c_str());
     }
 	  	
