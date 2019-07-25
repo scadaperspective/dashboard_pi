@@ -54,7 +54,7 @@ wxString& expand_talker_id( const wxString &identifier )
    ** Set up our default return value
    */
 
-   expanded_identifier = _T("Unknown - ");
+   expanded_identifier = wxT("Unknown - ");
    expanded_identifier += identifier;
 
    switch( first_character )
@@ -65,12 +65,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'G': // AG
 
-                expanded_identifier = _T("Autopilot - General");
+                expanded_identifier = wxT("Autopilot - General");
                break;
 
             case 'P': // AP
 
-                expanded_identifier = _T("Autopilot - Magnetic");
+                expanded_identifier = wxT("Autopilot - Magnetic");
                break;
          }
 
@@ -82,37 +82,37 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'C': // CC
 
-                expanded_identifier = _T("Commputer - Programmed Calculator (outdated)");
+                expanded_identifier = wxT("Commputer - Programmed Calculator (outdated)");
                break;
 
             case 'D': // CD
 
-                expanded_identifier = _T("Communications - Digital Selective Calling (DSC)");
+                expanded_identifier = wxT("Communications - Digital Selective Calling (DSC)");
                break;
 
             case 'M': // CM
 
-                expanded_identifier = _T("Computer - Memory Data (outdated)");
+                expanded_identifier = wxT("Computer - Memory Data (outdated)");
                break;
 
             case 'S': // CS
 
-                expanded_identifier = _T("Communications - Satellite");
+                expanded_identifier = wxT("Communications - Satellite");
                break;
 
             case 'T': // CT
 
-                expanded_identifier = _T("Communications - Radio-Telephone (MF/HF)");
+                expanded_identifier = wxT("Communications - Radio-Telephone (MF/HF)");
                break;
 
             case 'V': // CV
 
-                expanded_identifier = _T("Communications - Radio-Telephone (VHF)");
+                expanded_identifier = wxT("Communications - Radio-Telephone (VHF)");
                break;
 
             case 'X': // CX
 
-                expanded_identifier = _T("Communications - Scanning Receiver");
+                expanded_identifier = wxT("Communications - Scanning Receiver");
                break;
          }
 
@@ -124,12 +124,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'E': // DE
 
-                expanded_identifier = _T("DECCA Navigation");
+                expanded_identifier = wxT("DECCA Navigation");
                break;
 
             case 'F': // DF
 
-                expanded_identifier = _T("Direction Finder");
+                expanded_identifier = wxT("Direction Finder");
                break;
          }
 
@@ -141,17 +141,17 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'C': // EC
 
-                expanded_identifier = _T("Electronic Chart Display & Information System (ECDIS)");
+                expanded_identifier = wxT("Electronic Chart Display & Information System (ECDIS)");
                break;
 
             case 'P': // EP
 
-                expanded_identifier = _T("Emergency Position Indicating Beacon (EPIRB)");
+                expanded_identifier = wxT("Emergency Position Indicating Beacon (EPIRB)");
                break;
 
             case 'R': // ER
 
-                expanded_identifier = _T("Engine Room Monitoring Systems");
+                expanded_identifier = wxT("Engine Room Monitoring Systems");
                break;
          }
 
@@ -163,7 +163,7 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'P': // GP
 
-                expanded_identifier = _T("Global Positioning System (GPS)");
+                expanded_identifier = wxT("Global Positioning System (GPS)");
                break;
          }
 
@@ -175,17 +175,17 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'C': // HC
 
-                expanded_identifier = _T("Heading - Magnetic Compass");
+                expanded_identifier = wxT("Heading - Magnetic Compass");
                break;
 
             case 'E': // HE
 
-                expanded_identifier = _T("Heading - North Seeking Gyro");
+                expanded_identifier = wxT("Heading - North Seeking Gyro");
                break;
 
             case 'N': // HN
 
-                expanded_identifier = _T("Heading - Non North Seeking Gyro");
+                expanded_identifier = wxT("Heading - Non North Seeking Gyro");
                break;
          }
 
@@ -197,12 +197,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'I': // II
 
-                expanded_identifier = _T("Integrated Instrumentation");
+                expanded_identifier = wxT("Integrated Instrumentation");
                break;
 
             case 'N': // IN
 
-                expanded_identifier = _T("Integrated Navigation");
+                expanded_identifier = wxT("Integrated Navigation");
                break;
          }
 
@@ -214,12 +214,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'A': // LA
 
-                expanded_identifier = _T("Loran A");
+                expanded_identifier = wxT("Loran A");
                break;
 
             case 'C': // LC
 
-                expanded_identifier = _T("Loran C");
+                expanded_identifier = wxT("Loran C");
                break;
          }
 
@@ -231,7 +231,7 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'P': // MP
 
-                expanded_identifier = _T("Microwave Positioning System (outdated)");
+                expanded_identifier = wxT("Microwave Positioning System (outdated)");
                break;
          }
 
@@ -243,12 +243,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'M': // OM
 
-                expanded_identifier = _T("OMEGA Navigation System");
+                expanded_identifier = wxT("OMEGA Navigation System");
                break;
 
             case 'S': // OS
 
-                expanded_identifier = _T("Distress Alarm System (outdated)");
+                expanded_identifier = wxT("Distress Alarm System (outdated)");
                break;
          }
 
@@ -264,7 +264,7 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'A': // RA
 
-                expanded_identifier = _T("RADAR and/or ARPA");
+                expanded_identifier = wxT("RADAR and/or ARPA");
                break;
          }
 
@@ -276,17 +276,17 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'D': // SD
 
-                expanded_identifier = _T("Sounder, Depth");
+                expanded_identifier = wxT("Sounder, Depth");
                break;
 
             case 'N': // SN
 
-                expanded_identifier = _T("Electronic Positioning System, other/general");
+                expanded_identifier = wxT("Electronic Positioning System, other/general");
                break;
 
             case 'S': // SS
 
-                expanded_identifier = _T("Sounder, Scanning");
+                expanded_identifier = wxT("Sounder, Scanning");
                break;
          }
 
@@ -298,12 +298,12 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'I': // TI
 
-                expanded_identifier = _T("Turn Rate Indicator");
+                expanded_identifier = wxT("Turn Rate Indicator");
                break;
 
             case 'R': // TR
 
-                expanded_identifier = _T("TRANSIT Navigation System");
+                expanded_identifier = wxT("TRANSIT Navigation System");
                break;
          }
 
@@ -315,17 +315,17 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'D': // VD
 
-                expanded_identifier = _T("Velocity Sensor, Doppler, other/general");
+                expanded_identifier = wxT("Velocity Sensor, Doppler, other/general");
                break;
 
             case 'M': // VM
 
-                expanded_identifier = _T("Velocity Sensor, Speed Log, Water, Magnetic");
+                expanded_identifier = wxT("Velocity Sensor, Speed Log, Water, Magnetic");
                break;
 
             case 'W': // VW
 
-                expanded_identifier = _T("Velocity Sensor, Speed Log, Water, Mechanical");
+                expanded_identifier = wxT("Velocity Sensor, Speed Log, Water, Mechanical");
                break;
          }
 
@@ -338,7 +338,7 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'I': // WI
 
-                expanded_identifier = _T("Weather Instruments");
+                expanded_identifier = wxT("Weather Instruments");
                break;
          }
 
@@ -350,47 +350,47 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'C': // YC
 
-                expanded_identifier = _T("Transducer - Temperature (outdated)");
+                expanded_identifier = wxT("Transducer - Temperature (outdated)");
                break;
 
             case 'D': // YD
 
-                expanded_identifier = _T("Transducer - Displacement, Angular or Linear (outdated)");
+                expanded_identifier = wxT("Transducer - Displacement, Angular or Linear (outdated)");
                break;
 
             case 'F': // YF
 
-                expanded_identifier = _T("Transducer - Frequency (outdated)");
+                expanded_identifier = wxT("Transducer - Frequency (outdated)");
                break;
 
             case 'L': // YL
 
-                expanded_identifier = _T("Transducer - Level (outdated)");
+                expanded_identifier = wxT("Transducer - Level (outdated)");
                break;
 
             case 'P': // YP
 
-                expanded_identifier = _T("Transducer - Pressure (outdated)");
+                expanded_identifier = wxT("Transducer - Pressure (outdated)");
                break;
 
             case 'R': // YR
 
-                expanded_identifier = _T("Transducer - Flow Rate (outdated)");
+                expanded_identifier = wxT("Transducer - Flow Rate (outdated)");
                break;
 
             case 'T': // YT
 
-                expanded_identifier = _T("Transducer - Tachometer (outdated)");
+                expanded_identifier = wxT("Transducer - Tachometer (outdated)");
                break;
 
             case 'V': // YV
 
-                expanded_identifier = _T("Transducer - Volume (outdated)");
+                expanded_identifier = wxT("Transducer - Volume (outdated)");
                break;
 
             case 'X': // YX
 
-                expanded_identifier = _T("Transducer");
+                expanded_identifier = wxT("Transducer");
                break;
 
          }
@@ -403,22 +403,22 @@ wxString& expand_talker_id( const wxString &identifier )
          {
             case 'A': // ZA
 
-                expanded_identifier = _T("Timekeeper - Atomic Clock");
+                expanded_identifier = wxT("Timekeeper - Atomic Clock");
                break;
 
             case 'C': // ZC
 
-                expanded_identifier = _T("Timekeeper - Chronometer");
+                expanded_identifier = wxT("Timekeeper - Chronometer");
                break;
 
             case 'Q': // ZQ
 
-                expanded_identifier = _T("Timekeeper - Quartz");
+                expanded_identifier = wxT("Timekeeper - Quartz");
                break;
 
             case 'V': // ZV
 
-                expanded_identifier = _T("Timekeeper - Radio Update, WWV or WWVH");
+                expanded_identifier = wxT("Timekeeper - Radio Update, WWV or WWVH");
                break;
          }
 

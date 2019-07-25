@@ -1,4 +1,4 @@
-/**************************************************************************
+/* *************************************************************************
 * $Id: performance.cpp, v1.0 2016/06/07 tom_BigSpeedy Exp $
 *
 * Project:  OpenCPN
@@ -62,7 +62,7 @@ TacticsInstrument_PerformanceSingle::TacticsInstrument_PerformanceSingle(wxWindo
 	:DashboardInstrument(pparent, id, title, cap_flag)
 {
 	m_format = format;
-	m_data = _T("---");
+	m_data = wxT("---");
 	m_pconfig = GetOCPNConfigObject();
 	mTWS = NAN;
 	mHDT = NAN;
@@ -72,17 +72,17 @@ TacticsInstrument_PerformanceSingle::TacticsInstrument_PerformanceSingle(wxWindo
 	mCOG = NAN;
 	mBRG = -1;
     mTWD = NAN;
-	stwunit = _T("");
+	stwunit = wxT("");
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 wxSize TacticsInstrument_PerformanceSingle::GetSize(int orient, wxSize hint)
 {
 	wxClientDC dc(this);
 	int w;
 	dc.GetTextExtent(m_title, &w, &m_TitleHeight, 0, 0, g_pFontTitle);
-	dc.GetTextExtent(_T("000"), &w, &m_DataHeight, 0, 0, g_pFontData);
+	dc.GetTextExtent(wxT("000"), &w, &m_DataHeight, 0, 0, g_pFontData);
 
 	if (orient == wxHORIZONTAL) {
 		return wxSize(DefaultWidth, wxMax(hint.y, m_TitleHeight + m_DataHeight));
@@ -91,9 +91,9 @@ wxSize TacticsInstrument_PerformanceSingle::GetSize(int orient, wxSize hint)
 		return wxSize(wxMax(hint.x, DefaultWidth), m_TitleHeight + m_DataHeight);
 	}
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void TacticsInstrument_PerformanceSingle::Draw(wxGCDC* dc)
 {
 	wxColour cl;
@@ -101,12 +101,12 @@ void TacticsInstrument_PerformanceSingle::Draw(wxGCDC* dc)
 	wxBitmap tbm(dc->GetSize().x, m_DataHeight, -1);
 	wxMemoryDC tdc(tbm);
 	wxColour c2;
-	GetGlobalColor(_T("DASHB"), &c2);
+	GetGlobalColor(wxT("DASHB"), &c2);
 	tdc.SetBackground(c2);
 	tdc.Clear();
 
 	tdc.SetFont(*g_pFontData);
-	GetGlobalColor(_T("DASHF"), &cl);
+	GetGlobalColor(wxT("DASHF"), &cl);
 	tdc.SetTextForeground(cl);
 
 	tdc.DrawText(m_data, 10, 0);
@@ -116,7 +116,7 @@ void TacticsInstrument_PerformanceSingle::Draw(wxGCDC* dc)
 	dc->DrawBitmap(tbm, 0, m_TitleHeight, false);
 #else
 	dc->SetFont(*g_pFontData);
-	GetGlobalColor(_T("DASHF"), &cl);
+	GetGlobalColor(wxT("DASHF"), &cl);
 	dc->SetTextForeground(cl);
 
 	dc->DrawText(m_data, 10, m_TitleHeight);
@@ -124,15 +124,15 @@ void TacticsInstrument_PerformanceSingle::Draw(wxGCDC* dc)
 #endif
 
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void TacticsInstrument_PerformanceSingle::SetDisplayType(int type){
 	m_displaytype = type;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double data, wxString unit)
 {
   if (std::isnan(data))
@@ -188,19 +188,19 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
       //double avgtargetspeed = BoatPolar->GetAvgPolarSpeed(mTWA, mTWS);
       
       if (std::isnan(targetspeed) || mSTW == 0)
-	m_data = _T("no polar data");
+	m_data = wxT("no polar data");
       else {
 	double percent = mSTW / targetspeed * 100;
 	double user_targetSpeed = toUsrSpeed_Plugin(targetspeed, g_iDashSpeedUnit);
-	m_data = wxString::Format("%d", wxRound(percent)) + _T(" % / ") + wxString::Format("%.2f ", user_targetSpeed) + stwunit;
-	//m_data = wxString::Format("%.2f / ", avgtargetspeed) + wxString::Format("%.2f", user_targetSpeed) + _T(" ") + stwunit;
+	m_data = wxString::Format("%d", wxRound(percent)) + wxT(" % / ") + wxString::Format("%.2f ", user_targetSpeed) + stwunit;
+	//m_data = wxString::Format("%.2f / ", avgtargetspeed) + wxString::Format("%.2f", user_targetSpeed) + wxT(" ") + stwunit;
       }
     }
     else if (m_displaytype == POLARVMG){
       double VMG = BoatPolar->Calc_VMG(mTWA,mSTW);
       double user_VMG = toUsrSpeed_Plugin(VMG, g_iDashSpeedUnit);
       
-      m_data = wxString::Format("%.2f", user_VMG) + _T(" ") + stwunit;
+      m_data = wxString::Format("%.2f", user_VMG) + wxT(" ") + stwunit;
       
     }
     else if (m_displaytype == POLARTARGETVMG){
@@ -210,31 +210,31 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
 	double percent = fabs(VMG / targetVMG.TargetSpeed * 100.);
 	targetVMG.TargetSpeed = toUsrSpeed_Plugin(targetVMG.TargetSpeed, g_iDashSpeedUnit);
 	
-	m_data = wxString::Format("%d", wxRound(percent)) + _T(" % / ") + wxString::Format("%.2f", targetVMG.TargetSpeed) + _T(" ") + stwunit;
+	m_data = wxString::Format("%d", wxRound(percent)) + wxT(" % / ") + wxString::Format("%.2f", targetVMG.TargetSpeed) + wxT(" ") + stwunit;
       }
       else
-	m_data =  _T("--- % / --- ") + stwunit;
+	m_data =  wxT("--- % / --- ") + stwunit;
       
     }
     else if (m_displaytype == POLARTARGETVMGANGLE){
       TargetxMG targetVMG = BoatPolar->Calc_TargetVMG(mTWA, mTWS);
       if (!std::isnan(targetVMG.TargetAngle))
-	m_data = wxString::Format("%.1f", targetVMG.TargetAngle) + _T("\u00B0");
+	m_data = wxString::Format("%.1f", targetVMG.TargetAngle) + wxT("\u00B0");
       else
-	m_data = _T("no polar data");
+	m_data = wxT("no polar data");
     }
   }
   else
-    m_data = _T("---");
+    m_data = wxT("---");
   
   if (m_displaytype == POLARCMG){
     if (!std::isnan(mSOG) && !std::isnan(mCOG) && mBRG>=0) {
       mCMG = BoatPolar->Calc_CMG(mCOG, mSOG, mBRG);
       double user_CMG = toUsrSpeed_Plugin(mCMG, g_iDashSpeedUnit);
-      m_data = wxString::Format("%.2f", user_CMG) + _T(" ") + stwunit;
+      m_data = wxString::Format("%.2f", user_CMG) + wxT(" ") + stwunit;
     }
     else
-      m_data = _T("no bearing");
+      m_data = wxT("no bearing");
     
   }
   else if (m_displaytype == POLARTARGETCMG){
@@ -251,13 +251,13 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
 	  //double percent = fabs(cmg / targetCMG.TargetSpeed * 100.);
 	  double percent = cmg / TCMGMax.TargetSpeed * 100.;
 	  TCMGMax.TargetSpeed = toUsrSpeed_Plugin(TCMGMax.TargetSpeed, g_iDashSpeedUnit);
-	  m_data = wxString::Format("%d", wxRound(percent)) + _T(" % / ") + wxString::Format("%.2f", TCMGMax.TargetSpeed) + _T(" ") + stwunit;
+	  m_data = wxString::Format("%d", wxRound(percent)) + wxT(" % / ") + wxString::Format("%.2f", TCMGMax.TargetSpeed) + wxT(" ") + stwunit;
 	}
       else
-	m_data = _T("--- % / --- ") + stwunit;
+	m_data = wxT("--- % / --- ") + stwunit;
     }
     else
-      m_data = _T("--- % / --- ") + stwunit;
+      m_data = wxT("--- % / --- ") + stwunit;
     
   }
   else if (m_displaytype == POLARTARGETCMGANGLE){
@@ -268,25 +268,25 @@ void TacticsInstrument_PerformanceSingle::SetData(unsigned long long st, double 
       if (!std::isnan(mTWS) && !std::isnan(mTWD) && mBRG >= 0)
 	BoatPolar->Calc_TargetCMG2(mTWS, mTWD, mBRG, &TCMGMax, &TCMGMin);
       if (!std::isnan(TCMGMax.TargetAngle))
-	m_data = wxString::Format("%.1f", TCMGMax.TargetAngle) + _T("\u00B0");
+	m_data = wxString::Format("%.1f", TCMGMax.TargetAngle) + wxT("\u00B0");
       else
-	m_data = _T("no polar data");
+	m_data = wxT("no polar data");
     }
     else
-      m_data = _T("no data");
+      m_data = wxT("no data");
   }
   else if (m_displaytype == TWAMARK){
     if (mBRG>=0 && !std::isnan(mTWD)) {
       double markBrG = getDegRange(mBRG, mTWD);
-      m_data = wxString::Format("%.1f",(double) markBrG) + _T("\u00B0");
+      m_data = wxString::Format("%.1f",(double) markBrG) + wxT("\u00B0");
     }
     else
-      m_data = _T("---");
+      m_data = wxT("---");
   }
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 Polar::Polar(TacticsInstrument_PerformanceSingle* parent)
 {
 
@@ -309,10 +309,10 @@ Polar::Polar(TacticsInstrument_PerformanceSingle* parent)
 #endif
 #ifdef __WXOSX__
 	wxString stdPath = std_path.GetUserConfigDir();   // should be ~/Library/Preferences
-	stdPath += s + _T("opencpn");
+	stdPath += s + wxT("opencpn");
 #endif
 
-	wxString basePath = stdPath + s + _T("plugins") + s + _T("dashboard_pi") + s + _T("data") + s;
+	wxString basePath = stdPath + s + wxT("plugins") + s + wxT("dashboard_pi") + s + wxT("data") + s;
 	logbookDataPath = basePath;
 
 	reset();
@@ -339,10 +339,10 @@ Polar::Polar(tactics_pi* parent)
 #endif
 #ifdef __WXOSX__
   wxString stdPath = std_path.GetUserConfigDir();   // should be ~/Library/Preferences
-  stdPath += s + _T("opencpn");
+  stdPath += s + wxT("opencpn");
 #endif
 
-  wxString basePath = stdPath + s + _T("plugins") + s + _T("tactics_pi") + s + _T("data") + s;
+  wxString basePath = stdPath + s + wxT("plugins") + s + wxT("tactics_pi") + s + wxT("data") + s;
   logbookDataPath = basePath;
 
   reset();
@@ -357,18 +357,18 @@ Polar::~Polar(void)
 Load a new polar file and read it into the polar array
 Parameter
 (input) FilePath = path to polar file;
-_T("")     : open dialog and update  g_path_to_PolarFile
-_T("NULL") : just initialize array (to work w/o polar)
+wxT("")     : open dialog and update  g_path_to_PolarFile
+wxT("NULL") : just initialize array (to work w/o polar)
 ************************************************************************************/
 void Polar::loadPolar(wxString FilePath)
 {
-    wxString filePath = _T("NULL");
-    wxString fname = _T("");
+    wxString filePath = wxT("NULL");
+    wxString fname = wxT("");
 
-    if (FilePath == _T("")) { //input parameter empty, ask the path from the user
+    if (FilePath == wxT("")) { //input parameter empty, ask the path from the user
         wxFileDialog fdlg(
             GetOCPNCanvasWindow(),
-            _("Tactics Performance Parameters: Select a polar file"), _T(""));
+            _("Tactics Performance Parameters: Select a polar file"), wxT(""));
         if (fdlg.ShowModal() == wxID_CANCEL)
             return;
         filePath = fdlg.GetPath();
@@ -382,7 +382,7 @@ void Polar::loadPolar(wxString FilePath)
 
     this->reset();
 
-    if (filePath == _T("NULL"))
+    if (filePath == wxT("NULL"))
         return;
     
     wxFileInputStream stream(filePath);
@@ -402,11 +402,11 @@ void Polar::loadPolar(wxString FilePath)
         if (stream.Eof()) break;
         if (first)
         {
-            WS = wxStringTokenize(str, _T(";,\t "));
+            WS = wxStringTokenize(str, wxT(";,\t "));
             WS[0] = WS[0].Upper();
-            if (WS[0].Find(_T("TWA\\TWS")) != -1 ||
-                WS[0].Find(_T("TWA/TWS")) != -1 ||
-                WS[0].Find(_T("TWA")) != -1)
+            if (WS[0].Find(wxT("TWA\\TWS")) != -1 ||
+                WS[0].Find(wxT("TWA/TWS")) != -1 ||
+                WS[0].Find(wxT("TWA")) != -1)
             {
                 mode = 1;
                 sep = 1;
@@ -423,8 +423,8 @@ void Polar::loadPolar(wxString FilePath)
                     s = WS[i + 1];
 
                     if (col > WINDSPEED - 1) break;
-                    if (s == _T("0") || s == _T("0.00") ||
-                        s == _T("0.0") || s == _T("0.000")){
+                    if (s == wxT("0") || s == wxT("0.00") ||
+                        s == wxT("0.0") || s == wxT("0.000")){
                         continue;
                     }
                     if (col < WINDSPEED + 1) {
@@ -447,8 +447,8 @@ void Polar::loadPolar(wxString FilePath)
         }
         if (mode == 1) // Formats OCPN/QTVlm/MAXSea/CVS 
         {
-            WSS = wxStringTokenize(str, _T(";,\t "));
-            if (WSS[0] == _T("0") && mode == 1)
+            WSS = wxStringTokenize(str, wxT(";,\t "));
+            if (WSS[0] == wxT("0") && mode == 1)
             {
                 row++; continue;
             }
@@ -459,8 +459,8 @@ void Polar::loadPolar(wxString FilePath)
             {
                 s = WSS[i];
                 if (col > WINDSPEED - 1) break;
-                if (s == _T("0") || s == _T("0.00") ||
-                    s == _T("0.0") || s == _T("0.000")){
+                if (s == wxT("0") || s == wxT("0.00") ||
+                    s == wxT("0.0") || s == wxT("0.000")){
                     continue;
                 }
                 col = wxAtoi(WS[i]);
@@ -470,7 +470,7 @@ void Polar::loadPolar(wxString FilePath)
 
         if (mode == 2) // Format Expedition
         {
-            WS = wxStringTokenize(str, _T(";,\t "));
+            WS = wxStringTokenize(str, wxT(";,\t "));
             //x = wxAtoi(WS[0]);
             //col = (x + 1) / 2 - 1;
             col = wxAtoi(WS[0]);
@@ -482,8 +482,8 @@ void Polar::loadPolar(wxString FilePath)
                 row = wxAtoi(WS[i]);
                 s = WS[i + 1];
                 if (col > WINDSPEED - 1) break;
-                if (s == _T("0") || s == _T("0.00") ||
-                    s == _T("0.0") || s == _T("0.000"))
+                if (s == wxT("0") || s == wxT("0.00") ||
+                    s == wxT("0.0") || s == wxT("0.000"))
                 {
                     continue;
                 }
@@ -496,7 +496,7 @@ void Polar::loadPolar(wxString FilePath)
     }
     completePolar();
     g_path_to_PolarFile = filePath;
-    //wxMessageBox(_T("Polar ") + fname + _T(" loaded"));
+    //wxMessageBox(wxT("Polar ") + fname + wxT(" loaded"));
     m_bDataIsValid = true;
     return;
 }
@@ -505,7 +505,7 @@ void Polar::loadPolar(wxString FilePath)
 ************************************************************************************/
 void Polar::setValue(wxString s, int dir, int spd)
 {
-  s.Replace(_T(","), _T("."));
+  s.Replace(wxT(","), wxT("."));
   double speed = wxAtof(s);
   
   //if (speed > 0.0 && speed <= WINDSPEED && dir >= 0 && dir <WINDDIR)
@@ -541,11 +541,11 @@ void Polar::reset()
 
 }
 
-/***********************************************************************************
+/* **********************************************************************************
 Complete the boat polar, i.e. create the lookup table
 Calculates the intermediate values per degree & knot of the given polar
 No extrapolation.
-************************************************************************************/
+*********************************************************************************** */
 void Polar::completePolar()
 {
 	for (int n = 0; n < WINDDIR; n++)
@@ -604,9 +604,9 @@ TargetxMG Polar::GetTargetVMGDownwind(double TWS)
   return(tws[wxRound(TWS)].tvmg_dn);
 }
 
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void Polar::CalculateLineAverages(int n, int min, int max)
 {
 	int j;
@@ -631,9 +631,9 @@ void Polar::CalculateLineAverages(int n, int min, int max)
 	}
 
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void Polar::CalculateRowAverages(int i, int min, int max)
 {
 	int j;
@@ -656,12 +656,12 @@ void Polar::CalculateRowAverages(int i, int min, int max)
 	}
 
 }
-/***********************************************************************************
+/* **********************************************************************************
 Return the polar speed with averaging of wind speed.
 We're still ro�nding the TWA, as this is a calculated value anyway and I doubt
 it will have an accuracy < 1�.
 With this simplified approach of averaging only TWS we can reduce some load ...
-************************************************************************************/
+*********************************************************************************** */
 double Polar::GetPolarSpeed(double twa, double tws)
 {
   //original w/o averaging:
@@ -683,13 +683,13 @@ double Polar::GetPolarSpeed(double twa, double tws)
   //if (std::isnan(avspd1) || std::isnan(avspd1))
     return ((std::isnan(avspd1) || std::isnan(avspd1))?NAN: avspd1 + (avspd2 - avspd1)*fws);
 }
-/***********************************************************************************
+/* **********************************************************************************
 Get the polar speed with full averaging of the input data of both TWA and TWS.
 The polar is stored as a lookup table (2dim array) in steps of 1 kt / 1�.
 Instead of rounding up/down to the next full value as done in original GetPolarSpeed() we're
 averaging both TWA & TWS.
 Currently not used ...
-************************************************************************************/
+*********************************************************************************** */
 double Polar::GetAvgPolarSpeed(double twa, double tws)
 {
   double fangle, fws,  avspd1, avspd2, av_Spd;
@@ -709,16 +709,16 @@ double Polar::GetAvgPolarSpeed(double twa, double tws)
   return av_Spd;
 }
 
-/***********************************************************************************
+/* **********************************************************************************
 Basic VMG(Velocity made good) measured against the wind direction
-************************************************************************************/
+*********************************************************************************** */
 double Polar::Calc_VMG(double TWA, double StW)
 {
 	return fabs(StW * cos(TWA * M_PI / 180.) );
 }
-/***********************************************************************************
+/* **********************************************************************************
 Calculate opt. VMG (angle & speed) for up- and downwind courses (w/o a bearing to a mark)
-************************************************************************************/
+*********************************************************************************** */
 TargetxMG Polar::Calc_TargetVMG(double TWA, double TWS)
 {
 	TargetxMG TVMG;
@@ -758,9 +758,9 @@ TargetxMG Polar::Calc_TargetVMG(double TWA, double TWS)
 	if (TVMG.TargetSpeed == -999)TVMG.TargetSpeed = NAN;
 	return TVMG;
 }
-/***********************************************************************************
+/* **********************************************************************************
  Calculate CMG (Course made good) to bearing = the speed towards the bearing
-************************************************************************************/
+*********************************************************************************** */
 double Polar::Calc_CMG(double heading, double speed, double Brg)
 {
 	//double Cmg = speed * cos((heading - Brg)* M_PI / 180.);
@@ -768,7 +768,7 @@ double Polar::Calc_CMG(double heading, double speed, double Brg)
 	//return fabs(Cmg);
     return Cmg;
 }
-/***********************************************************************************
+/* **********************************************************************************
 Calculate opt. CMG (angle & speed) for up- and downwind courses with bearing to a mark
 
        TWD
@@ -779,7 +779,7 @@ Calculate opt. CMG (angle & speed) for up- and downwind courses with bearing to 
       \ | /              *
        \|/               * 
                         *
-************************************************************************************/
+*********************************************************************************** */
 
 /*
   Calculate the target CMG (=VMC)
@@ -836,7 +836,7 @@ TargetxMG Polar::Calc_TargetCMG(double TWS, double TWD,  double BRG)
     if (TCMG.TargetAngle > 180) TCMG.TargetAngle = 360. - TCMG.TargetAngle;
 	return TCMG;
 }
-/**********************************************************************************
+/* *********************************************************************************
 in certain cases there exists a second, lower cmg on the other tack
 This routine returns both cmg's if available, otherwise NAN
 
@@ -869,7 +869,7 @@ cmg-min   \     |  *  /   *
         *         *   *
            *   *
 
-**********************************************************************************************/
+********************************************************************************************* */
 void Polar::Calc_TargetCMG2(double TWS, double TWD, double BRG, TargetxMG *TCMGMax, TargetxMG* TCMGMin)
 {
   TargetxMG* TCMG1 = new TargetxMG;
@@ -953,7 +953,7 @@ void Polar::Calc_TargetCMG2(double TWS, double TWD, double BRG, TargetxMG *TCMGM
     */
 }
 /*
-test, doesn't work ...
+test, doesn't work ... */
 /*
 TargetxMG Polar::Calc_TargetCMG2(double TWS, double TWD, double BRG, TargetxMG *cmg2)
 {
@@ -1018,9 +1018,9 @@ TargetxMG Polar::Calc_TargetCMG2(double TWS, double TWD, double BRG, TargetxMG *
     return (*TCMG2);
   }
 }*/
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void Polar::showDlg()
 {
 	dlg->ShowModal();
@@ -1042,9 +1042,9 @@ ExpSmooth::ExpSmooth(double a)
 ExpSmooth::~ExpSmooth(void)
 {
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 double ExpSmooth::GetSmoothVal(double input)
 {
 	if (std::isnan(SmoothedValue)) SmoothedValue = input;
@@ -1052,29 +1052,29 @@ double ExpSmooth::GetSmoothVal(double input)
 	SmoothedValue = alpha*input + (1 - alpha)*oldSmoothedValue;
 	return SmoothedValue;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void ExpSmooth::SetAlpha(double newalpha)
 {
 	alpha = newalpha;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 double ExpSmooth::GetAlpha()
 {
 	return alpha;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void ExpSmooth::SetInitVal(double init)
 {
 	SmoothedValue = init;
 	oldSmoothedValue = init;
 }
-/***********************************************************************************
+/* **********************************************************************************
 Class for double exonential Smoothing, DES
 ------------------------------------------------------------------------------------
 Formula taken from 
@@ -1090,7 +1090,7 @@ Spt = alpha*pt + (1 - alpha)*Sptmin1;
 Sp2t = alpha*Spt + (1 - alpha)*Sp2tmin1;
 ptplusT = (2 + alpha*T / (1 - alpha))*Spt - (1 + alpha*T / (1 - alpha)) * Sp2t;
 
-************************************************************************************/
+*********************************************************************************** */
 DoubleExpSmooth::DoubleExpSmooth(double newalpha)
 {
   alpha = newalpha;
@@ -1099,15 +1099,15 @@ DoubleExpSmooth::DoubleExpSmooth(double newalpha)
   SpT = NAN;
   Sp2T = NAN;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 DoubleExpSmooth::~DoubleExpSmooth(void)
 {
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 double DoubleExpSmooth::GetSmoothVal(double input)
 {
   
@@ -1122,32 +1122,32 @@ double DoubleExpSmooth::GetSmoothVal(double input)
   predPosT = (2 + alpha*T / (1 - alpha))*SpT - (1 + alpha*T / (1 - alpha)) * Sp2T;
   return predPosT;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void DoubleExpSmooth::SetAlpha(double newalpha)
 {
   alpha = newalpha;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 double DoubleExpSmooth::GetAlpha()
 {
   return alpha;
 }
-/***********************************************************************************
+/* **********************************************************************************
 
-************************************************************************************/
+*********************************************************************************** */
 void DoubleExpSmooth::SetInitVal(double init)
 {
   SpT = init;
   Sp2T = init;
 }
 
-//************************************************************************************************************************
+// ************************************************************************************************************************
 // Polar Performance instrument
-//************************************************************************************************************************
+// ************************************************************************************************************************
 
 TacticsInstrument_PolarPerformance::TacticsInstrument_PolarPerformance(wxWindow *parent, wxWindowID id, wxString title) :
 DashboardInstrument(parent, id, title, OCPN_DBP_STC_STW | OCPN_DBP_STC_TWA | OCPN_DBP_STC_TWS)
@@ -1160,8 +1160,8 @@ DashboardInstrument(parent, id, title, OCPN_DBP_STC_STW | OCPN_DBP_STC_TWA | OCP
   m_MaxPercent = 0.0;
   m_MinBoatSpd = 0.0;
   m_MaxBoatSpd = 0.0;
-  m_STWUnit = _T("--");
-  m_PercentUnit = _T("%");
+  m_STWUnit = wxT("--");
+  m_PercentUnit = wxT("%");
   num_of_scales = 6;
   m_MaxBoatSpdScale = 0.0;
   m_MaxPercentScale = 0.0;
@@ -1223,12 +1223,12 @@ void TacticsInstrument_PolarPerformance::SetData(unsigned long long st, double d
         double m_PolarSpeed = BoatPolar->GetPolarSpeed(m_TWA, m_TWS);
 
         if (std::isnan(m_PolarSpeed))
-          m_PercentUnit = _T("no polar data");
+          m_PercentUnit = wxT("no polar data");
         else if (m_PolarSpeed <= 0.0)
-          m_PercentUnit = _T("--");
+          m_PercentUnit = wxT("--");
         else {
           m_PolarSpeedPercent = m_STW / m_PolarSpeed * 100.0;
-          m_PercentUnit = _T("%");
+          m_PercentUnit = wxT("%");
         }
         m_STWUnit = unit;
         m_IsRunning = true;
@@ -1278,9 +1278,9 @@ void TacticsInstrument_PolarPerformance::Draw(wxGCDC* dc)
   DrawForeground(dc);
 }
 
-//*********************************************************************************
+// *********************************************************************************
 // draw boat speed legend (right side)
-//*********************************************************************************
+// *********************************************************************************
 void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
 {
   wxString label[41]; // max 800%
@@ -1297,7 +1297,7 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
   dc->SetFont(*g_pFontSmall);
   if (!m_IsRunning) {
     for (int i = 0; i < num_of_scales; i++)
-      label[i].Printf(_T("--- %s"), m_STWUnit);
+      label[i].Printf(wxT("--- %s"), m_STWUnit);
   }
   else {
     /*we round the speed up to the next full knot ==> the top and bottom line have full numbers as legend (e.g. 23 kn -- 0 kn)
@@ -1307,11 +1307,11 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
     */
 
     // label 1 : legend for bottom line. By definition always w/o decimals
-    label[0].Printf(_T("%.0f %s"), toUsrSpeed_Plugin(m_MinBoatSpd, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label[0].Printf(wxT("%.0f %s"), toUsrSpeed_Plugin(m_MinBoatSpd, g_iDashSpeedUnit), m_STWUnit.c_str());
     for (int i = 1; i < num_of_scales; i++){
       // legend every 20 %
       BoatSpdScale = m_MaxBoatSpdScale * i * 1. / (num_of_scales - 1);
-      label[i].Printf(_T("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
+      label[i].Printf(wxT("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
     }
   }
   //draw the legend with the labels; find the widest string and store it in m_RightLegend.
@@ -1325,9 +1325,9 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
   for (int i = 0; i < num_of_scales; i++)
     dc->DrawText(label[i], m_WindowRect.width - m_RightLegend, (int)(m_TopLineHeight + m_DrawAreaRect.height - (m_DrawAreaRect.height* i * 1./(double)(num_of_scales-1)) - height / 2));
 }
-//*********************************************************************************
+// *********************************************************************************
 // draw boat speed legend (right side)
-//*********************************************************************************
+// *********************************************************************************
 /*void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
 {
   wxString label1, label2, label3, label4, label5;
@@ -1343,7 +1343,7 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
   dc->SetTextForeground(cl);
   dc->SetFont(*g_pFontSmall);
   if (!m_IsRunning) {
-    label1.Printf(_T("--- %s"), m_STWUnit);
+    label1.Printf(wxT("--- %s"), m_STWUnit);
     label2 = label1;
     label3 = label1;
     label4 = label1;
@@ -1356,18 +1356,18 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
     //The goal is to draw the legend with decimals only, if we really have them !
     
     // label 1 : legend for bottom line. By definition always w/o decimals
-    label1.Printf(_T("%.0f %s"), toUsrSpeed_Plugin(m_MinBoatSpd, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label1.Printf(wxT("%.0f %s"), toUsrSpeed_Plugin(m_MinBoatSpd, g_iDashSpeedUnit), m_STWUnit.c_str());
     // label 2 : 1/4
     BoatSpdScale = m_MaxBoatSpdScale / 4.;
-    label2.Printf(_T("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label2.Printf(wxT("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
     // label 3 : legend for center line
     BoatSpdScale = m_MaxBoatSpdScale / 2.;
-    label3.Printf(_T("%.0f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label3.Printf(wxT("%.0f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
     // label 4 :  3/4
     BoatSpdScale = m_MaxBoatSpdScale*3. / 4.;
-    label4.Printf(_T("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label4.Printf(wxT("%.1f %s"), toUsrSpeed_Plugin(BoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
     // label 5 : legend for top line
-    label5.Printf(_T("%.0f %s"), toUsrSpeed_Plugin(m_MaxBoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
+    label5.Printf(wxT("%.0f %s"), toUsrSpeed_Plugin(m_MaxBoatSpdScale, g_iDashSpeedUnit), m_STWUnit.c_str());
   }
   //draw the legend with the labels; find the widest string and store it in m_RightLegend.
   // m_RightLegend is the basis for the horizontal lines !
@@ -1390,9 +1390,9 @@ void  TacticsInstrument_PolarPerformance::DrawBoatSpeedScale(wxGCDC* dc)
   dc->DrawText(label1, m_WindowRect.width - m_RightLegend, (int)(m_TopLineHeight + m_DrawAreaRect.height - height / 2));
 }
 
-//*********************************************************************************
+// *********************************************************************************
 // draw percent boat speed scale (left side)
-//*********************************************************************************
+// *********************************************************************************
 void  TacticsInstrument_PolarPerformance::DrawPercentSpeedScale(wxGCDC* dc)
 {
   wxString label1, label2, label3, label4, label5, label100;
@@ -1408,7 +1408,7 @@ void  TacticsInstrument_PolarPerformance::DrawPercentSpeedScale(wxGCDC* dc)
   m_MaxPercentScale = (int)(m_MaxPercent + 10 - tmpval);
   if (m_MaxPercentScale < 100.0)m_MaxPercentScale = 100.0;
   if (!m_IsRunning) {
-    label1.Printf(_T("--- %s"), m_PercentUnit);
+    label1.Printf(wxT("--- %s"), m_PercentUnit);
     label2 = label1;
     label3 = label1;
     label4 = label1;
@@ -1422,40 +1422,40 @@ void  TacticsInstrument_PolarPerformance::DrawPercentSpeedScale(wxGCDC* dc)
     //The goal is to draw the legend with decimals only, if we really have them !
     //
     // legend for 100 %
-    label100.Printf(_T("%.0f %s"), 100.0, m_PercentUnit);
+    label100.Printf(wxT("%.0f %s"), 100.0, m_PercentUnit);
     // top legend for max %
-    label1.Printf(_T("%.0f %s"), m_MaxPercentScale, m_PercentUnit);
+    label1.Printf(wxT("%.0f %s"), m_MaxPercentScale, m_PercentUnit);
     // 3/4 legend
     BoatSpdScale = m_MaxPercentScale*3. / 4.;
     // do we need a decimal ?
     val1 = (int)((BoatSpdScale - (int)BoatSpdScale) * 100);
     if (val1 == 25 || val1 == 75)  // it's a .25 or a .75
-      label2.Printf(_T("%.2f %s"), BoatSpdScale, m_PercentUnit);
+      label2.Printf(wxT("%.2f %s"), BoatSpdScale, m_PercentUnit);
     else if (val1 == 50)
-      label2.Printf(_T("%.1f %s"), BoatSpdScale, m_PercentUnit);
+      label2.Printf(wxT("%.1f %s"), BoatSpdScale, m_PercentUnit);
     else
-      label2.Printf(_T("%.0f %s"), BoatSpdScale, m_PercentUnit);
+      label2.Printf(wxT("%.0f %s"), BoatSpdScale, m_PercentUnit);
     // center legend
     BoatSpdScale = m_MaxPercentScale / 2.;
     // center line can either have a .0 or .5 value !
     if ((int)(BoatSpdScale * 10) % 10 == 5)
-      label3.Printf(_T("%.1f %s"), BoatSpdScale, m_PercentUnit);
+      label3.Printf(wxT("%.1f %s"), BoatSpdScale, m_PercentUnit);
     else
-      label3.Printf(_T("%.0f %s"), BoatSpdScale, m_PercentUnit);
+      label3.Printf(wxT("%.0f %s"), BoatSpdScale, m_PercentUnit);
 
     // 1/4 legend
     BoatSpdScale = m_MaxPercentScale / 4.;
     // do we need a decimal ?
     val1 = (int)((BoatSpdScale - (int)BoatSpdScale) * 100);
     if (val1 == 25 || val1 == 75)
-      label4.Printf(_T("%.2f %s"), BoatSpdScale, m_PercentUnit);
+      label4.Printf(wxT("%.2f %s"), BoatSpdScale, m_PercentUnit);
     else if (val1 == 50)
-      label4.Printf(_T("%.1f %s"), BoatSpdScale, m_PercentUnit);
+      label4.Printf(wxT("%.1f %s"), BoatSpdScale, m_PercentUnit);
     else
-      label4.Printf(_T("%.0f %s"), BoatSpdScale, m_PercentUnit);
+      label4.Printf(wxT("%.0f %s"), BoatSpdScale, m_PercentUnit);
 
     //bottom legend for min wind, always 0
-    label5.Printf(_T("%.0f %s"), 0.0, m_PercentUnit);
+    label5.Printf(wxT("%.0f %s"), 0.0, m_PercentUnit);
   }
   if (m_MaxPercentScale > 100.0){
     dc->GetTextExtent(label100, &width, &height, 0, 0, g_pFontSmall);
@@ -1496,12 +1496,12 @@ void  TacticsInstrument_PolarPerformance::DrawPercentSpeedScale(wxGCDC* dc)
   //---------------------------------------------------------------------------------
   //100% line
   if (m_MaxPercentScale > 100.0){
-    GetGlobalColor(_T("URED"), &cl);
+    GetGlobalColor(wxT("URED"), &cl);
     pen.SetColour(cl);
     dc->SetPen(pen);
     dc->DrawLine(m_LeftLegend + 3, (int)(m_TopLineHeight + m_DrawAreaRect.height * 100.0 / m_MaxPercentScale), m_WindowRect.width - 3 - m_RightLegend, (int)(m_TopLineHeight + m_DrawAreaRect.height * 100.0 / m_MaxPercentScale));
   }
-  GetGlobalColor(_T("UBLCK"), &cl);
+  GetGlobalColor(wxT("UBLCK"), &cl);
   pen.SetColour(cl);
   dc->SetPen(pen);
   dc->DrawLine(m_LeftLegend + 3, m_TopLineHeight, m_WindowRect.width - 3 - m_RightLegend, m_TopLineHeight); // the upper line
@@ -1538,20 +1538,20 @@ void  TacticsInstrument_PolarPerformance::DrawPercentSpeedScale(wxGCDC* dc)
   if (num_of_scales > 41){
     num_of_scales = 41; //avoid overrun of label[41]
     dc->SetFont(*g_pFontData);
-    labeloor.Printf(_T("Polar data out of range"));
+    labeloor.Printf(wxT("Polar data out of range"));
     dc->GetTextExtent(labeloor, &width, &height, 0, 0, g_pFontData);
     dc->DrawText(labeloor, 4 + m_DrawAreaRect.width/2 - width/2, (int)(m_TopLineHeight + m_DrawAreaRect.height / 2 - height / 2));
   }
   if (!m_IsRunning) {
     for (int i = 0; i < num_of_scales; i++)
-      label[i].Printf(_T("--- %s"), m_PercentUnit);
+      label[i].Printf(wxT("--- %s"), m_PercentUnit);
   }
   else {
     /*we round the speed up to the next full knot 
     */
     for (int i = 0; i < num_of_scales; i++)
       // legend every 20 %
-      label[i].Printf(_T("%i %s"), (int)(i*20), m_PercentUnit);
+      label[i].Printf(wxT("%i %s"), (int)(i*20), m_PercentUnit);
 
   }
   dc->GetTextExtent(label[num_of_scales-1], &m_LeftLegend, &height, 0, 0, g_pFontSmall);
@@ -1583,7 +1583,7 @@ void TacticsInstrument_PolarPerformance::DrawBackground(wxGCDC* dc)
   //---------------------------------------------------------------------------------
   // horizontal lines
   //---------------------------------------------------------------------------------
-  GetGlobalColor(_T("UBLCK"), &cl);
+  GetGlobalColor(wxT("UBLCK"), &cl);
   pen.SetColour(cl);
   dc->SetPen(pen);
    for (int i = 0; i < num_of_scales; i++)
@@ -1611,9 +1611,9 @@ void TacticsInstrument_PolarPerformance::DrawForeground(wxGCDC* dc)
   col = wxColour(204, 41, 41, 255); //red, opaque
   dc->SetTextForeground(col);
   if (!m_IsRunning)
-    BoatSpeed = _T("STW ---");
+    BoatSpeed = wxT("STW ---");
   else {
-    BoatSpeed = wxString::Format(_T("STW %3.2f %s"), toUsrSpeed_Plugin(m_STW, g_iDashSpeedUnit), m_STWUnit.c_str());
+    BoatSpeed = wxString::Format(wxT("STW %3.2f %s"), toUsrSpeed_Plugin(m_STW, g_iDashSpeedUnit), m_STWUnit.c_str());
   }
   dc->GetTextExtent(BoatSpeed, &degw, &degh, 0, 0, g_pFontData);
   dc->DrawText(BoatSpeed, m_WindowRect.width - degw - m_RightLegend - 3, m_TopLineHeight - degh);
@@ -1668,7 +1668,7 @@ void TacticsInstrument_PolarPerformance::DrawForeground(wxGCDC* dc)
   col = wxColour(61, 61, 204, 255); //blue, opaque
   dc->SetFont(*g_pFontData);
   dc->SetTextForeground(col);
-  PercentSpeed = wxString::Format(_T("Polar Perf. %3.2f %s "), m_PolarSpeedPercent, m_PercentUnit);
+  PercentSpeed = wxString::Format(wxT("Polar Perf. %3.2f %s "), m_PolarSpeedPercent, m_PercentUnit);
   dc->GetTextExtent(PercentSpeed, &degw, &degh, 0, 0, g_pFontData);
   dc->DrawText(PercentSpeed, m_LeftLegend + 3, m_TopLineHeight - degh);
   dc->SetFont(*g_pFontLabel);
@@ -1688,8 +1688,8 @@ void TacticsInstrument_PolarPerformance::DrawForeground(wxGCDC* dc)
   wxString s_Max = _("Max");
   wxString s_Since = _("since");
   wxString s_Avg = _("Average");
- // dc->DrawText(wxString::Format(_T("%s %.1f %s %s %02d:%02d  %s %.1f %s"), s_Max, m_MaxPercent, m_PercentUnit, s_Since, hour, min, s_OMax, m_TotalMaxSpdPercent, m_PercentUnit), m_LeftLegend + 3 + 2 + degw, m_TopLineHeight - degh + 5);
-  dc->DrawText(wxString::Format(_T("%s %.1f %s %s %02d:%02d  %s %.1f %s"), s_Max, m_MaxPercent, m_PercentUnit, s_Since, hour, min, s_Avg, m_AvgSpdPercent, m_PercentUnit), m_LeftLegend + 3 + 2 + degw, m_TopLineHeight - degh + 5);
+ // dc->DrawText(wxString::Format(wxT("%s %.1f %s %s %02d:%02d  %s %.1f %s"), s_Max, m_MaxPercent, m_PercentUnit, s_Since, hour, min, s_OMax, m_TotalMaxSpdPercent, m_PercentUnit), m_LeftLegend + 3 + 2 + degw, m_TopLineHeight - degh + 5);
+  dc->DrawText(wxString::Format(wxT("%s %.1f %s %s %02d:%02d  %s %.1f %s"), s_Max, m_MaxPercent, m_PercentUnit, s_Since, hour, min, s_Avg, m_AvgSpdPercent, m_PercentUnit), m_LeftLegend + 3 + 2 + degw, m_TopLineHeight - degh + 5);
   pen.SetStyle(wxPENSTYLE_SOLID);
   pen.SetColour(wxColour(61, 61, 204, 96)); //blue, transparent
   pen.SetWidth(1);
@@ -1734,7 +1734,7 @@ void TacticsInstrument_PolarPerformance::DrawForeground(wxGCDC* dc)
   //---------------------------------------------------------------------------------
   //draw vertical timelines every 5 minutes
   //---------------------------------------------------------------------------------
-  GetGlobalColor(_T("UBLCK"), &col);
+  GetGlobalColor(wxT("UBLCK"), &col);
   pen.SetColour(col);
   pen.SetStyle(wxPENSTYLE_DOT);
   dc->SetPen(pen);
@@ -1751,7 +1751,7 @@ void TacticsInstrument_PolarPerformance::DrawForeground(wxGCDC* dc)
           if ((hour * 100 + min) != done && (min % 5 == 0) && (sec == 0 || sec == 1)) {
               pointTime.x = idx * m_ratioW + 3 + m_LeftLegend;
               dc->DrawLine( pointTime.x, m_TopLineHeight+1, pointTime.x,(m_TopLineHeight+m_DrawAreaRect.height+1) );
-              label.Printf(_T("%02d:%02d"), hour,min);
+              label.Printf(wxT("%02d:%02d"), hour,min);
               dc->GetTextExtent(label, &width, &height, 0, 0, g_pFontSmall);
               dc->DrawText(label, pointTime.x-width/2, m_WindowRect.height-height);
               done=hour*100+min;

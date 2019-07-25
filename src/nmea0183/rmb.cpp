@@ -43,7 +43,7 @@
 
 RMB::RMB()
 {
-    Mnemonic = _T("RMB");
+    Mnemonic = wxT("RMB");
    Empty();
 }
 
@@ -80,7 +80,7 @@ bool RMB::Parse( const SENTENCE& sentence )
    **                                                             14
    **        1 2   3 4    5    6       7 8        9 10  11  12  13|  15
    **        | |   | |    |    |       | |        | |   |   |   | |  |
-   ** $--RMB,A,x.x,a,c--c,c--c,llll.ll,a,yyyyy.yy,a,x.x,x.x,x.x,A,m,*hh<CR><LF>
+   ** $--RMB,A,x.x,a,c--c,c--c,llll.ll,a,yyyyy.yy,a,x.x,x.x,x.x,A,m, *hh<CR><LF>
    ** cf. https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:opencpn_user_manual:advanced_features:nmea_sentences#rmb_-_recommended_minimum_navigation_information
    */
 #else
@@ -145,14 +145,14 @@ bool RMB::Parse( const SENTENCE& sentence )
 
     if ( check == NTrue )
     {
-        SetErrorMessage( _T("Invalid Checksum") );
+        SetErrorMessage( wxT("Invalid Checksum") );
         return( FALSE );
     }
 
     /*
       if ( check == Unknown0183 )
       {
-      SetErrorMessage( _T("Missing Checksum") );
+      SetErrorMessage( wxT("Missing Checksum") );
       return( FALSE );
       }
     */
@@ -199,9 +199,9 @@ bool RMB::Write( SENTENCE& sentence )
     sentence += IsDataValid;
     sentence += CrossTrackError;
     if(DirectionToSteer == Left)
-        sentence += _T("L");
+        sentence += wxT("L");
     else
-        sentence += _T("R");
+        sentence += wxT("R");
 
     sentence += From;
     sentence += To;

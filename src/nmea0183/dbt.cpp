@@ -43,7 +43,7 @@
 
 DBT::DBT()
 {
-   Mnemonic = _T("DBT");
+   Mnemonic = wxT("DBT");
    Empty();
 }
 
@@ -89,7 +89,7 @@ bool DBT::Parse( const SENTENCE& sentence )
 
    if ( sentence.IsChecksumBad( 7 ) == TRUE )
    {
-      SetErrorMessage( _T("Invalid Checksum") );
+      SetErrorMessage( wxT("Invalid Checksum") );
       return( FALSE );
    } 
 
@@ -111,11 +111,11 @@ bool DBT::Write( SENTENCE& sentence )
    RESPONSE::Write( sentence );
 
    sentence += DepthFeet;
-   sentence += _T("f");
+   sentence += wxT("f");
    sentence += DepthMeters;
-   sentence += _T("M");
+   sentence += wxT("M");
    sentence += DepthFathoms;
-   sentence += _T("F");
+   sentence += wxT("F");
 
    sentence.Finish();
 

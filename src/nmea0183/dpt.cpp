@@ -43,7 +43,7 @@
 
 DPT::DPT()
 {
-   Mnemonic = _T("DPT");
+   Mnemonic = wxT("DPT");
    Empty();
 }
 
@@ -90,16 +90,16 @@ bool DPT::Parse( const SENTENCE& sentence )
             * * This may be an NMEA Version 3 sentence, with "Max depth range" field
             */
        wxString checksum_in_sentence = sentence.Field( 3 );
-       if(checksum_in_sentence.StartsWith(_T("*")))       // Field is a valid erroneous checksum
+       if(checksum_in_sentence.StartsWith(wxT("*")))       // Field is a valid erroneous checksum
        {
-            SetErrorMessage( _T("Invalid Checksum") );
+            SetErrorMessage( wxT("Invalid Checksum") );
             return( FALSE );
        }
        else
        {
            if( sentence.IsChecksumBad( 4 ) == TRUE)
            {
-               SetErrorMessage( _T("Invalid Checksum") );
+               SetErrorMessage( wxT("Invalid Checksum") );
                return( FALSE );
            }
        }

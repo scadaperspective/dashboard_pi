@@ -28,7 +28,7 @@
 #ifndef _FROM_OWNSHIP_H_
 #define _FROM_OWNSHIP_H_
 
-// For compilers that support precompilation, includes "wx/wx.h".
+// For compilers that support pre-compilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 
 #ifdef __BORLANDC__

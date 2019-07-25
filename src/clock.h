@@ -53,7 +53,7 @@ public:
 #else
                                int cap_flag=OCPN_DBP_STC_CLK,
 #endif // _TACTICSPI_H_
-                               wxString format=_T("%02i:%02i:%02i UTC") );
+                               wxString format=wxT("%02i:%02i:%02i UTC") );
 
     ~DashboardInstrument_Clock(void){}
 
@@ -97,7 +97,7 @@ private:
 class DashboardInstrument_Sun : public DashboardInstrument_Clock
 {
 public:
-    DashboardInstrument_Sun( wxWindow *parent, wxWindowID id, wxString title, wxString format = _T( "%02i:%02i:%02i UTC" ) );
+    DashboardInstrument_Sun( wxWindow *parent, wxWindowID id, wxString title, wxString format = wxT( "%02i:%02i:%02i UTC" ) );
 
     ~DashboardInstrument_Sun(){}
 
@@ -123,7 +123,7 @@ private:
 class DashboardInstrument_CPUClock : public DashboardInstrument_Clock
 {
 public:
-    DashboardInstrument_CPUClock( wxWindow *parent, wxWindowID id, wxString title, wxString format = _T( "%02i:%02i:%02i UTC" ) );
+    DashboardInstrument_CPUClock( wxWindow *parent, wxWindowID id, wxString title, wxString format = wxT( "%02i:%02i:%02i UTC" ) );
 
     ~DashboardInstrument_CPUClock() {}
 
