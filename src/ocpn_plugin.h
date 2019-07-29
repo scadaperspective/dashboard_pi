@@ -581,7 +581,7 @@ public:
     PlugIn_Waypoint();
     PlugIn_Waypoint(double lat, double lon,
                     const wxString& icon_ident, const wxString& wp_name,
-                    const wxString& GUID = _T("") );
+                    const wxString& GUID = wxT("") );
     ~PlugIn_Waypoint();
 
     double             m_lat;
@@ -774,7 +774,7 @@ extern DECL_EXP bool UpdatePlugInTrack ( PlugIn_Track *ptrack );
 wxColour DECL_EXP GetBaseGlobalColor(wxString colorName);
 int DECL_EXP OCPNMessageBox_PlugIn(wxWindow *parent,
                           const wxString& message,
-                          const wxString& caption = _T("Message"),
+                          const wxString& caption = wxT("Message"),
                           int style = wxOK, int x = -1, int y = -1);
 
 extern DECL_EXP wxString toSDMM_PlugIn(int NEflag, double a, bool hi_precision = true);

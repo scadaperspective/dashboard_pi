@@ -60,7 +60,7 @@ DashboardInstrument_Dial(parent, id, title, cap_flag, 0, 360, 0, 360)
 {
 	SetOptionMarker(5, DIAL_MARKER_SIMPLE, 2);
 	SetOptionLabel(20, DIAL_LABEL_ROTATED);
-	SetOptionMainValue(_T("%.1f"), DIAL_POSITION_INSIDE);
+	SetOptionMainValue(wxT("%.1f"), DIAL_POSITION_INSIDE);
 	//    Get a pointer to the opencpn configuration object
 
 	m_pconfig = GetOCPNConfigObject();
@@ -86,7 +86,7 @@ DashboardInstrument_Dial(parent, id, title, cap_flag, 0, 360, 0, 360)
 	m_TWD = NAN;
 	m_StW = 0.0;
 	m_PolSpd = NAN;
-    m_ToWpt = _T("---");
+    m_ToWpt = wxT("---");
 	m_PolSpd_Percent = NAN;
 	alpha_diffCogHdt = 0.1;
 	m_ExpSmoothDiffCogHdt = 0;
@@ -168,7 +168,7 @@ void TacticsInstrument_PolarCompass::SetData(unsigned long long st,
 				m_ExtraValueDTWUnit = getUsrDistanceUnit_Plugin(g_iDashDistanceUnit);
 			}
 		}*/
-		m_BearingUnit = _T("\u00B0");
+		m_BearingUnit = wxT("\u00B0");
 	}
     if (!GetSingleWaypoint(g_sMarkGUID, m_pMark))
         m_pMark = NULL;
@@ -178,14 +178,14 @@ void TacticsInstrument_PolarCompass::SetData(unsigned long long st,
       m_ToWpt = g_sMarkGUID;
       m_ExtraValueDTW = toUsrDistance_Plugin(dist, g_iDashDistanceUnit);
       m_ExtraValueDTWUnit = getUsrDistanceUnit_Plugin(g_iDashDistanceUnit);
-      m_BearingUnit = _T("\u00B0");
+      m_BearingUnit = wxT("\u00B0");
     }
     if (!m_pMark && std::isnan(m_Bearing)){
-      m_ToWpt = _T("---");
+      m_ToWpt = wxT("---");
       m_ExtraValueDTW = NAN;
       m_predictedSog = NAN;
       m_ExtraValueDTWUnit = getUsrDistanceUnit_Plugin(g_iDashDistanceUnit);
-      m_BearingUnit = _T("\u00B0");
+      m_BearingUnit = wxT("\u00B0");
     }
 	CalculateLaylineDegreeRange();
 }
@@ -194,7 +194,7 @@ void TacticsInstrument_PolarCompass::SetData(unsigned long long st,
 void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
 {
 	wxColour c1;
-	GetGlobalColor(_T("DASHB"), &c1);
+	GetGlobalColor(wxT("DASHB"), &c1);
 	wxBrush b1(c1);
 	bdc->SetBackground(b1);
 	bdc->Clear();
@@ -203,7 +203,7 @@ void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
 	m_cx = size.x / 2;
 	int availableHeight = size.y - m_TitleHeight - 6;
 	int width, height;
-	bdc->GetTextExtent(_T("000"), &width, &height, 0, 0, g_pFontLabel);
+	bdc->GetTextExtent(wxT("000"), &width, &height, 0, 0, g_pFontLabel);
 	m_cy = m_TitleHeight + 2;
 	m_cy += availableHeight / 2;
 	m_radius = availableHeight / 2. *0.80;
@@ -214,9 +214,9 @@ void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
 	DrawBackground(bdc);
     DrawForeground(bdc);
     if (!std::isnan(m_Bearing) && !std::isnan(m_ExtraValueDTW)){
-      //DrawData(bdc, m_Bearing, m_BearingUnit, _T("BRG:%.1f"), DIAL_POSITION_TOPLEFT);
-      DrawData(bdc, m_ExtraValueDTW, m_ExtraValueDTWUnit, _T("DTW:%.1f"), DIAL_POSITION_TOPLEFT);
-      DrawData(bdc, 0, m_ToWpt, _T(""), DIAL_POSITION_TOPRIGHT);
+      //DrawData(bdc, m_Bearing, m_BearingUnit, wxT("BRG:%.1f"), DIAL_POSITION_TOPLEFT);
+      DrawData(bdc, m_ExtraValueDTW, m_ExtraValueDTWUnit, wxT("DTW:%.1f"), DIAL_POSITION_TOPLEFT);
+      DrawData(bdc, 0, m_ToWpt, wxT(""), DIAL_POSITION_TOPRIGHT);
     }
   //wxLogMessage("-- ..PolarCompass-Draw() - m_TWA=%f m_TWS=%f", m_TWA, m_TWS);
     if (!std::isnan(m_TWA) && !std::isnan(m_TWS) ){
@@ -229,18 +229,18 @@ void TacticsInstrument_PolarCompass::Draw(wxGCDC* bdc)
     else{
       m_PolSpd = m_PolSpd_Percent = 0;
     }
-    DrawData(bdc, m_StW, m_StWUnit, _T("STW:%.1f"), DIAL_POSITION_INSIDE);
-    DrawData(bdc, toUsrSpeed_Plugin(m_PolSpd, g_iDashSpeedUnit), m_StWUnit, _T("T-PS:%.1f"), DIAL_POSITION_BOTTOMLEFT);
+    DrawData(bdc, m_StW, m_StWUnit, wxT("STW:%.1f"), DIAL_POSITION_INSIDE);
+    DrawData(bdc, toUsrSpeed_Plugin(m_PolSpd, g_iDashSpeedUnit), m_StWUnit, wxT("T-PS:%.1f"), DIAL_POSITION_BOTTOMLEFT);
     DrawMarkers(bdc);
-    //if (!std::isnan(m_ExtraValueDTW)) DrawData(bdc, m_ExtraValueDTW, m_ExtraValueDTWUnit, _T("DTW:%.1f"), DIAL_POSITION_BOTTOMLEFT);
+    //if (!std::isnan(m_ExtraValueDTW)) DrawData(bdc, m_ExtraValueDTW, m_ExtraValueDTWUnit, wxT("DTW:%.1f"), DIAL_POSITION_BOTTOMLEFT);
     //	if (m_CurrDir >= 0 && m_CurrDir < 360)
 //		DrawCurrent(bdc);
 
 	DrawLaylines(bdc);
-	//DrawData(bdc, m_MainValue, m_MainValueUnit, _T("%.1f"), DIAL_POSITION_TOPINSIDE);
+	//DrawData(bdc, m_MainValue, m_MainValueUnit, wxT("%.1f"), DIAL_POSITION_TOPINSIDE);
 
-//	 if (!std::isnan(m_predictedSog)) DrawData(bdc, m_predictedSog, _T("kn "), _T("prd.SOG:\u2245%.1f"), DIAL_POSITION_BOTTOMRIGHT);
-    DrawData(bdc, m_PolSpd_Percent, _T("%"), _T("%.1f"), DIAL_POSITION_BOTTOMRIGHT);
+//	 if (!std::isnan(m_predictedSog)) DrawData(bdc, m_predictedSog, wxT("kn "), wxT("prd.SOG:\u2245%.1f"), DIAL_POSITION_BOTTOMRIGHT);
+    DrawData(bdc, m_PolSpd_Percent, wxT("%"), wxT("%.1f"), DIAL_POSITION_BOTTOMRIGHT);
 
 
 }
@@ -257,10 +257,10 @@ void TacticsInstrument_PolarCompass::DrawBoat(wxGCDC* dc, int cx, int cy, int ra
 {
   // Now draw the boat
   wxColour cl;
-  GetGlobalColor(_T("DASH2"), &cl);
+  GetGlobalColor(wxT("DASH2"), &cl);
   wxPen* pen = wxThePenList->FindOrCreatePen(cl, 1, wxPENSTYLE_SOLID);
   dc->SetPen(*pen);
-  GetGlobalColor(_T("DASH1"), &cl);
+  GetGlobalColor(wxT("DASH1"), &cl);
   dc->SetBrush(cl);
   wxPoint points[7];
 
@@ -311,7 +311,7 @@ void TacticsInstrument_PolarCompass::DrawWindAngles(wxGCDC* dc)
 	if (!std::isnan(m_TWA)) {
 		wxColour cl;
 
-		GetGlobalColor(_T("BLUE3"), &cl);
+		GetGlobalColor(wxT("BLUE3"), &cl);
 		wxBrush brush;
 		brush.SetStyle(wxBRUSHSTYLE_TRANSPARENT);
 		brush.SetColour(cl);
@@ -325,7 +325,7 @@ void TacticsInstrument_PolarCompass::DrawWindAngles(wxGCDC* dc)
 
 		/* this is fix for a +/-180� round instrument, when m_MainValue is supplied as <0..180><L | R>
 		* for example TWA & AWA */
-		if (m_curTack == _T("\u00B0lr"))
+		if (m_curTack == wxT("\u00B0lr"))
 			data = 360 - TwaCog;
 		else
 			data = TwaCog;
@@ -392,18 +392,18 @@ void TacticsInstrument_PolarCompass::DrawTargetxMGAngle(wxGCDC* dc){
     TargetxMG TCMGMin;
 
     if (tvmg_up.TargetAngle > 0){
-      DrawTargetAngle(dc, tvmg_up.TargetAngle, _T("BLUE3"), 2);
-      DrawTargetAngle(dc, 360-tvmg_up.TargetAngle, _T("BLUE3"), 2);
+      DrawTargetAngle(dc, tvmg_up.TargetAngle, wxT("BLUE3"), 2);
+      DrawTargetAngle(dc, 360-tvmg_up.TargetAngle, wxT("BLUE3"), 2);
     }
     if (tvmg_dn.TargetAngle > 0) {
-      DrawTargetAngle(dc, tvmg_dn.TargetAngle, _T("BLUE3"), 2);
-      DrawTargetAngle(dc, 360-tvmg_dn.TargetAngle, _T("BLUE3"), 2);
+      DrawTargetAngle(dc, tvmg_dn.TargetAngle, wxT("BLUE3"), 2);
+      DrawTargetAngle(dc, 360-tvmg_dn.TargetAngle, wxT("BLUE3"), 2);
     }
     if (!std::isnan(m_Bearing)){
       if (m_Bearing >= 0 && m_Bearing < 360 && !std::isnan(m_TWD)){
         BoatPolar->Calc_TargetCMG2(m_TWS, m_TWD, m_Bearing, &TCMGMax, &TCMGMin);
-        if (!std::isnan(TCMGMax.TargetAngle))      DrawTargetAngle(dc, TCMGMax.TargetAngle, _T("URED"), 2);
-        if (!std::isnan(TCMGMin.TargetAngle))      DrawTargetAngle(dc, TCMGMin.TargetAngle, _T("URED"), 1);
+        if (!std::isnan(TCMGMax.TargetAngle))      DrawTargetAngle(dc, TCMGMax.TargetAngle, wxT("URED"), 2);
+        if (!std::isnan(TCMGMin.TargetAngle))      DrawTargetAngle(dc, TCMGMin.TargetAngle, wxT("URED"), 1);
       }
     }
   }
@@ -493,7 +493,7 @@ void TacticsInstrument_PolarCompass::DrawBearing(wxGCDC* dc)
 	// no border for the circle 
 	dc->SetPen(*wxTRANSPARENT_PEN);
 
-	GetGlobalColor(_T("URED"), &cl);
+	GetGlobalColor(wxT("URED"), &cl);
 	wxBrush brush;
 	brush.SetStyle(wxBRUSHSTYLE_SOLID);
 	brush.SetColour(cl);
@@ -525,7 +525,7 @@ void TacticsInstrument_PolarCompass::DrawPolar(wxGCDC*dc)
 {
   if (!std::isnan(m_TWS) && !std::isnan(m_TWD)) {
     wxColour cl;
-    GetGlobalColor(_T("UBLCK"), &cl);
+    GetGlobalColor(wxT("UBLCK"), &cl);
     wxPen pen1;
     pen1.SetStyle(wxPENSTYLE_SOLID);
     pen1.SetColour(cl);
@@ -567,7 +567,7 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 
 	dc->SetFont(*g_pFontLabel);
 	wxColour cl;
-	GetGlobalColor(_T("DASHF"), &cl);
+	GetGlobalColor(wxT("DASHF"), &cl);
 	dc->SetTextForeground(cl);
 
 	wxSize size = GetClientSize();
@@ -575,23 +575,23 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 	wxString text;
 	if (!std::isnan(value))
 	{
-		if (unit == _T("\u00B0"))
+		if (unit == wxT("\u00B0"))
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0lr")) // No special display for now, might be XX�< (as in text-only instrument) - no support for B0R
+		else if (unit == wxT("\u00B0lr")) // No special display for now, might be XX�< (as in text-only instrument) - no support for B0R
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0rl")) // No special display for now, might be >XX� - no support for B0L
+		else if (unit == wxT("\u00B0rl")) // No special display for now, might be >XX� - no support for B0L
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0T"))
-			text = wxString::Format(format, value) + DEGREE_SIGN + _T("T");
-		else if (unit == _T("\u00B0M"))
-			text = wxString::Format(format, value) + DEGREE_SIGN + _T("M");
-		else if (unit == _T("N")) // Knots
-			text = wxString::Format(format, value) + _T(" Kts");
+		else if (unit == wxT("\u00B0T"))
+			text = wxString::Format(format, value) + DEGREE_SIGN + wxT("T");
+		else if (unit == wxT("\u00B0M"))
+			text = wxString::Format(format, value) + DEGREE_SIGN + wxT("M");
+		else if (unit == wxT("N")) // Knots
+			text = wxString::Format(format, value) + wxT(" Kts");
 		else
-			text = wxString::Format(format, value) + _T(" ") + unit;
+			text = wxString::Format(format, value) + wxT(" ") + unit;
 	}
 	else
-		text = _T("---");
+		text = wxT("---");
 
 	int width, height;
 	dc->GetMultiLineTextExtent(text, &width, &height, NULL, g_pFontLabel);
@@ -604,20 +604,20 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 	switch (position)
 	{
 	case DIAL_POSITION_NONE:
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		// This case was already handled before, it's here just
 		// to avoid compiler warning.
 		return;
 	case DIAL_POSITION_INSIDE:
 	{
-		GetGlobalColor(_T("BLUE2"), &c3);
+		GetGlobalColor(wxT("BLUE2"), &c3);
 		TextPoint.x = m_cx - (width / 2) - 1;
 		TextPoint.y = (size.y * .75) - height;
-		GetGlobalColor(_T("DASHL"), &cl);
+		GetGlobalColor(wxT("DASHL"), &cl);
         int penwidth = 1;//size.x / 100;
 		wxPen* pen = wxThePenList->FindOrCreatePen(cl, penwidth, wxPENSTYLE_SOLID);
 		dc->SetPen(*pen);
-		GetGlobalColor(_T("DASHB"), &cl);
+		GetGlobalColor(wxT("DASHB"), &cl);
 		dc->SetBrush(cl);
 		// There might be a background drawn below
 		// so we must clear it first.
@@ -626,14 +626,14 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 	}
 	case DIAL_POSITION_TOPINSIDE:
 	{
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		TextPoint.x = m_cx - (width / 2) - 1;
 		TextPoint.y = m_cy- 0.95*m_radius - height;
-		GetGlobalColor(_T("UBLCK"), &cl);
+		GetGlobalColor(wxT("UBLCK"), &cl);
 		int penwidth = size.x / 100;
 		wxPen* pen = wxThePenList->FindOrCreatePen(cl, penwidth, wxPENSTYLE_SOLID);
 		dc->SetPen(*pen);
-		GetGlobalColor(_T("DASHB"), &cl);
+		GetGlobalColor(wxT("DASHB"), &cl);
 		dc->SetBrush(cl);
 		// There might be a background drawn below
 		// so we must clear it first.
@@ -641,31 +641,31 @@ void TacticsInstrument_PolarCompass::DrawData(wxGCDC* dc, double value,
 		break;
 	}
 	case DIAL_POSITION_TOPLEFT:
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		TextPoint.x = 0;
 		TextPoint.y = m_TitleHeight;
 		break;
 	case DIAL_POSITION_TOPRIGHT:
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		TextPoint.x = size.x - width - 1;
 		TextPoint.y = m_TitleHeight;
 		break;
 	case DIAL_POSITION_BOTTOMLEFT:
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		TextPoint.x = 0;
 		TextPoint.y = size.y - height;
 		break;
 	case DIAL_POSITION_BOTTOMRIGHT:
-		GetGlobalColor(_T("DASHF"), &c3);
+		GetGlobalColor(wxT("DASHF"), &c3);
 		TextPoint.x = size.x - width - 1;
 		TextPoint.y = size.y - height;
 		break;
 	}
 
 	wxColour c2;
-	GetGlobalColor(_T("DASHB"), &c2);
+	GetGlobalColor(wxT("DASHB"), &c2);
 
-	wxStringTokenizer tkz(text, _T("\n"));
+	wxStringTokenizer tkz(text, wxT("\n"));
 	wxString token;
 
 	token = tkz.GetNextToken();
@@ -705,13 +705,13 @@ void TacticsInstrument_PolarCompass::DrawLaylines(wxGCDC* dc)
 
 
 		wxColour cl;
-		GetGlobalColor(_T("DASH2"), &cl);
+		GetGlobalColor(wxT("DASH2"), &cl);
 		wxPen pen1;
 		pen1.SetStyle(wxPENSTYLE_SOLID);
 		pen1.SetColour(cl);
 		pen1.SetWidth(2);
 		dc->SetPen(pen1);
-		GetGlobalColor(_T("DASH1"), &cl);
+		GetGlobalColor(wxT("DASH1"), &cl);
 		wxBrush brush1;
 		brush1.SetStyle(wxBRUSHSTYLE_SOLID);
 		brush1.SetColour(cl);
@@ -719,19 +719,19 @@ void TacticsInstrument_PolarCompass::DrawLaylines(wxGCDC* dc)
 
 		dc->SetPen(*wxTRANSPARENT_PEN);
 
-		GetGlobalColor(_T("DASHN"), &cl);
+		GetGlobalColor(wxT("DASHN"), &cl);
 		wxBrush vbrush, tackbrush;
 		vbrush.SetStyle(wxBRUSHSTYLE_SOLID);
 		tackbrush.SetStyle(wxBRUSHSTYLE_SOLID);
 		//m_curTack = TWA unit
 		//it shows L= wind from left = port tack or R=wind from right = starboard tack
 		//we're on port tack, so vertical layline is red
-		if (m_curTack == _T("\u00B0lr")) {
+		if (m_curTack == wxT("\u00B0lr")) {
 			vbrush.SetColour(wxColour(204, 41, 41, 128));  //red, transparent
 			tackbrush.SetColour(wxColour(0, 200, 0, 128)); //green, transparent
 			m_targetTack = _("R");
 		}
-		else if (m_curTack == _T("\u00B0rl"))  {// we're on starboard tack, so vertical layline is green
+		else if (m_curTack == wxT("\u00B0rl"))  {// we're on starboard tack, so vertical layline is green
 			vbrush.SetColour(wxColour(0, 200, 0, 128));      //green, transparent
 			tackbrush.SetColour(wxColour(204, 41, 41, 128)); //red, transparent
 			m_targetTack = _("L");
@@ -771,12 +771,12 @@ void TacticsInstrument_PolarCompass::DrawLaylines(wxGCDC* dc)
 		********************************************************************************************/
 		dc->SetBrush(tackbrush);
         double predictedKdW; //==predicted Course Through Water
-        double Leeway = (m_LeewayUnit == _T("\u00B0lr")) ? -m_Leeway : m_Leeway;
-        if (m_targetTack == _T("R")){ // so currently wind is from port ...
+        double Leeway = (m_LeewayUnit == wxT("\u00B0lr")) ? -m_Leeway : m_Leeway;
+        if (m_targetTack == wxT("R")){ // so currently wind is from port ...
 			//predictedKdW = m_Hdt - 2 * m_TWA - m_Leeway;
           predictedKdW = m_Hdt - 2 * m_TWA - Leeway;
         }
-		else if (m_targetTack == _T("L")){ //so, currently wind from starboard
+		else if (m_targetTack == wxT("L")){ //so, currently wind from starboard
 			//predictedKdW = m_Hdt + 2 * m_TWA + m_Leeway;
           predictedKdW = m_Hdt + 2 * m_TWA - Leeway;
         }

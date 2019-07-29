@@ -112,13 +112,13 @@ void DashboardInstrument::OnPaint( wxPaintEvent& WXUNUSED(event) )
 {
     wxAutoBufferedPaintDC pdc( this );
     if( !pdc.IsOk() ) {
-        wxLogMessage( _T("DashboardInstrument::OnPaint() fatal: wxAutoBufferedPaintDC.IsOk() false.") );
+        wxLogMessage( wxT("DashboardInstrument::OnPaint() fatal: wxAutoBufferedPaintDC.IsOk() false.") );
         return;
     }
 
     wxSize size = GetClientSize();
     if( size.x == 0 || size.y == 0 ) {
-        wxLogMessage( _T("DashboardInstrument::OnPaint() fatal: Zero size DC.") );
+        wxLogMessage( wxT("DashboardInstrument::OnPaint() fatal: Zero size DC.") );
         return;
     }
 
@@ -129,7 +129,7 @@ void DashboardInstrument::OnPaint( wxPaintEvent& WXUNUSED(event) )
 #endif
 
     wxColour cl;
-    GetGlobalColor( _T("DASHB"), &cl );
+    GetGlobalColor( wxT("DASHB"), &cl );
     dc.SetBackground( cl );
 #ifdef __WXGTK__
     dc.SetBrush( cl );
@@ -150,14 +150,14 @@ void DashboardInstrument::OnPaint( wxPaintEvent& WXUNUSED(event) )
         {
             wxPen pen;
             pen.SetStyle( wxPENSTYLE_SOLID );
-            GetGlobalColor( _T("DASHL"), &cl );
+            GetGlobalColor( wxT("DASHL"), &cl );
             pen.SetColour( cl );
             dc.SetPen( pen );
             dc.SetBrush( cl );
             dc.DrawRoundedRectangle( 0, 0, size.x, m_TitleHeight, 3 );
 
             dc.SetFont( *g_pFontTitle );
-            GetGlobalColor( _T("DASHF"), &cl );
+            GetGlobalColor( wxT("DASHF"), &cl );
             dc.SetTextForeground( cl );
             dc.DrawText( m_title, 5, 0 );
         }
@@ -165,20 +165,20 @@ void DashboardInstrument::OnPaint( wxPaintEvent& WXUNUSED(event) )
 #ifdef __WXMSW__
         if( g_pFontTitle->GetPointSize() <= 12 ) {
             wxColour cl;
-            GetGlobalColor( _T("DASHB"), &cl );
+            GetGlobalColor( wxT("DASHB"), &cl );
             pdc.SetBrush(cl);
             pdc.DrawRectangle(0, 0, size.x, m_TitleHeight);
 
             wxPen pen;
             pen.SetStyle( wxPENSTYLE_SOLID );
-            GetGlobalColor( _T("DASHL"), &cl );
+            GetGlobalColor( wxT("DASHL"), &cl );
             pen.SetColour( cl );
             pdc.SetPen( pen );
             pdc.SetBrush( cl );
             pdc.DrawRoundedRectangle( 0, 0, size.x, m_TitleHeight, 3 );
 
             pdc.SetFont( *g_pFontTitle );
-            GetGlobalColor( _T("DASHF"), &cl );
+            GetGlobalColor( wxT("DASHF"), &cl );
             pdc.SetTextForeground( cl );
             pdc.DrawText( m_title, 5, 0 );
         }
@@ -202,7 +202,7 @@ DashboardInstrument_Single::DashboardInstrument_Single(wxWindow *pparent, wxWind
       :DashboardInstrument(pparent, id, title, cap_flag)
 {
       m_format = format;
-      m_data = _T("---");
+      m_data = wxT("---");
       m_DataHeight = 0;
 }
 
@@ -211,7 +211,7 @@ wxSize DashboardInstrument_Single::GetSize( int orient, wxSize hint )
       wxClientDC dc(this);
       int w;
       dc.GetTextExtent(m_title, &w, &m_TitleHeight, 0, 0, g_pFontTitle);
-      dc.GetTextExtent(_T("000"), &w, &m_DataHeight, 0, 0, g_pFontData);
+      dc.GetTextExtent(wxT("000"), &w, &m_DataHeight, 0, 0, g_pFontData);
 
       if( orient == wxHORIZONTAL ) {
           return wxSize( DefaultWidth, wxMax(hint.y, m_TitleHeight+m_DataHeight) );
@@ -227,12 +227,12 @@ void DashboardInstrument_Single::Draw(wxGCDC* dc)
       wxBitmap tbm( dc->GetSize().x, m_DataHeight, -1 );
       wxMemoryDC tdc( tbm );
       wxColour c2;
-      GetGlobalColor( _T("DASHB"), &c2 );
+      GetGlobalColor( wxT("DASHB"), &c2 );
       tdc.SetBackground( c2 );
       tdc.Clear();
 
       tdc.SetFont(*g_pFontData );
-      GetGlobalColor( _T("DASHF"), &cl );
+      GetGlobalColor( wxT("DASHF"), &cl );
       tdc.SetTextForeground( cl );
 
       tdc.DrawText(m_data, 10, 0);
@@ -242,7 +242,7 @@ void DashboardInstrument_Single::Draw(wxGCDC* dc)
       dc->DrawBitmap(tbm, 0, m_TitleHeight, false);
 #else
       dc->SetFont(*g_pFontData );
-      GetGlobalColor( _T("DASHF"), &cl );
+      GetGlobalColor( wxT("DASHF"), &cl );
       dc->SetTextForeground( cl );
 
       dc->DrawText(m_data, 10, m_TitleHeight);
@@ -265,71 +265,71 @@ void DashboardInstrument_Single::SetData(
 #endif // _TACTICSPI_H_
       if (m_cap_flag & st){
             if(!std::isnan(data) && (data < 9999)){
-                if (unit == _T("C"))
-                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+_T("C");
+                if (unit == wxT("C"))
+                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+wxT("C");
 #ifdef _TACTICSPI_H_
-                else if (unit == _T("F"))
-                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+_T("F");
+                else if (unit == wxT("F"))
+                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+wxT("F");
 #endif // _TACTICSPI_H_
-                else if (unit == _T("\u00B0"))
+                else if (unit == wxT("\u00B0"))
                   m_data = wxString::Format(m_format, data)+DEGREE_SIGN;
-                else if (unit == _T("\u00B0T"))
+                else if (unit == wxT("\u00B0T"))
                   m_data = wxString::Format(m_format, data)+DEGREE_SIGN+_(" true");
-                else if (unit == _T("\u00B0M"))
+                else if (unit == wxT("\u00B0M"))
                   m_data = wxString::Format(m_format, data)+DEGREE_SIGN+_(" mag");
 #ifdef _TACTICSPI_H_
-                else if (unit == _T("\u00B0l")){
+                else if (unit == wxT("\u00B0l")){
                     if (data < 0) data = -data;
                     m_data = L"\u2190" +
                         wxString::Format(m_format, data) + DEGREE_SIGN;
                 }
-                else if (unit == _T("\u00B0rl")){ // wind arrow on starboard side
+                else if (unit == wxT("\u00B0rl")){ // wind arrow on starboard side
                   if (data < 0) data = -data;
                   m_data = wxString::Format(m_format, data) +
                       //                      DEGREE_SIGN + windDirUniCode( data );
                       DEGREE_SIGN + L"\u2190";
                 }
-                else if (unit == _T("\u00B0r")){
+                else if (unit == wxT("\u00B0r")){
                   if (data < 0) data = -data;
                   m_data = wxString::Format(m_format, data) +
                       DEGREE_SIGN + L"\u2192";
                 }
-                else if (unit == _T("\u00B0lr")){ // wind arrow on port side
+                else if (unit == wxT("\u00B0lr")){ // wind arrow on port side
                     if (data < 0) data = -data;
                     //                    m_data = windDirUniCode( data ) +
                     m_data = L"\u2192" +
                         wxString::Format(m_format, data) + DEGREE_SIGN;
                 }
-                else if (unit == _T("\u00B0u")){
+                else if (unit == wxT("\u00B0u")){
                   if (data < 0) data = -data;
                   m_data = wxString::Format(m_format, data) +
                       DEGREE_SIGN + L"\u2191";
                 }
-                else if (unit == _T("\u00B0d")){
+                else if (unit == wxT("\u00B0d")){
                   if (data < 0) data = -data;
                   m_data = wxString::Format(m_format, data) +
                       DEGREE_SIGN + L"\u2193";
                 }
 #else
-                else if (unit == _T("\u00B0L"))
-                  m_data = _T(">")+ wxString::Format(m_format, data)+DEGREE_SIGN;
-                else if (unit == _T("\u00B0R"))
-                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+_T("<");
+                else if (unit == wxT("\u00B0L"))
+                  m_data = wxT(">")+ wxString::Format(m_format, data)+DEGREE_SIGN;
+                else if (unit == wxT("\u00B0R"))
+                  m_data = wxString::Format(m_format, data)+DEGREE_SIGN+wxT("<");
 #endif // _TACTICSPI_H_
-                else if (unit == _T("N")) //Knots
-                  m_data = wxString::Format(m_format, data)+_T(" Kts");
+                else if (unit == wxT("N")) //Knots
+                  m_data = wxString::Format(m_format, data)+wxT(" Kts");
 /* maybe in the future ...
-                else if (unit == _T("M")) // m/s
-                  m_data = wxString::Format(m_format, data)+_T(" m/s");
-                else if (unit == _T("K")) // km/h
-                  m_data = wxString::Format(m_format, data)+_T(" km/h");
+                else if (unit == wxT("M")) // m/s
+                  m_data = wxString::Format(m_format, data)+wxT(" m/s");
+                else if (unit == wxT("K")) // km/h
+                  m_data = wxString::Format(m_format, data)+wxT(" km/h");
  ... to be completed
  */
                 else
-                  m_data = wxString::Format(m_format, data)+_T(" ")+unit;
+                  m_data = wxString::Format(m_format, data)+wxT(" ")+unit;
             }
             else
-                m_data = _T("---");
+                m_data = wxT("---");
       }
 }
 
@@ -351,8 +351,8 @@ DashboardInstrument_Position::DashboardInstrument_Position(wxWindow *pparent, wx
       :DashboardInstrument(pparent, id, title, cap_flag1 | cap_flag2)
 {
 
-      m_data1 = _T("---");
-      m_data2 = _T("---");
+      m_data1 = wxT("---");
+      m_data2 = wxT("---");
       m_cap_flag1 = cap_flag1;
       m_cap_flag2 = cap_flag2;
       m_DataHeight = 0;
@@ -363,7 +363,7 @@ wxSize DashboardInstrument_Position::GetSize( int orient, wxSize hint )
       wxClientDC dc(this);
       int w;
       dc.GetTextExtent(m_title, &w, &m_TitleHeight, 0, 0, g_pFontTitle);
-      dc.GetTextExtent(_T("000  00.0000 W"), &w, &m_DataHeight, 0, 0, g_pFontData);
+      dc.GetTextExtent(wxT("000  00.0000 W"), &w, &m_DataHeight, 0, 0, g_pFontData);
 
       if( orient == wxHORIZONTAL ) {
           return wxSize( w+10, wxMax(hint.y, m_TitleHeight+m_DataHeight*2) );
@@ -380,12 +380,12 @@ void DashboardInstrument_Position::Draw(wxGCDC* dc)
       wxBitmap tbm( dc->GetSize().x, m_DataHeight * 2, -1 );
       wxMemoryDC tdc( tbm );
       wxColour c2;
-      GetGlobalColor( _T("DASHB"), &c2 );
+      GetGlobalColor( wxT("DASHB"), &c2 );
       tdc.SetBackground( c2 );
       tdc.Clear();
 
       tdc.SetFont(*g_pFontData );
-      GetGlobalColor( _T("DASHF"), &cl );
+      GetGlobalColor( wxT("DASHF"), &cl );
       tdc.SetTextForeground( cl );
 
       tdc.DrawText(m_data1, 10, 0);
@@ -396,7 +396,7 @@ void DashboardInstrument_Position::Draw(wxGCDC* dc)
       dc->DrawBitmap(tbm, 0, m_TitleHeight, false);
 #else
       dc->SetFont(*g_pFontData );
-      GetGlobalColor( _T("DASHF"), &cl );
+      GetGlobalColor( wxT("DASHF"), &cl );
       dc->SetTextForeground( cl );
 
       dc->DrawText(m_data1, 10, m_TitleHeight);

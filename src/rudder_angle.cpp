@@ -47,12 +47,12 @@ DashboardInstrument_RudderAngle::DashboardInstrument_RudderAngle( wxWindow *pare
       // Default Rudder position is centered
       m_MainValue = 0;
 
-      //SetOptionMainValue(_T("%3.0f Deg"), DIAL_POSITION_BOTTOMLEFT);
+      //SetOptionMainValue(wxT("%3.0f Deg"), DIAL_POSITION_BOTTOMLEFT);
       SetOptionMarker(5, DIAL_MARKER_REDGREEN, 2);
       // Labels are set static because we've no logic to display them this way
-      wxString labels[] = {_T("40"), _T("30"), _T("20"), _T("10"), _T("0"), _T("10"), _T("20"), _T("30"), _T("40")};
+      wxString labels[] = {wxT("40"), wxT("30"), wxT("20"), wxT("10"), wxT("0"), wxT("10"), wxT("20"), wxT("30"), wxT("40")};
       SetOptionLabel(10, DIAL_LABEL_HORIZONTAL, wxArrayString(9, labels));
-//      SetOptionExtraValue(_T("%02.0f"), DIAL_POSITION_INSIDE);
+//      SetOptionExtraValue(wxT("%02.0f"), DIAL_POSITION_INSIDE);
 }
 
 wxSize DashboardInstrument_RudderAngle::GetSize( int orient, wxSize hint )
@@ -111,7 +111,7 @@ void DashboardInstrument_RudderAngle::DrawFrame(wxGCDC* dc)
       wxPen pen;
       pen.SetStyle(wxPENSTYLE_SOLID);
       pen.SetWidth(2);
-      GetGlobalColor(_T("DASHF"), &cl);
+      GetGlobalColor(wxT("DASHF"), &cl);
       pen.SetColour(cl);
       dc->SetPen(pen);
 
@@ -130,7 +130,7 @@ void DashboardInstrument_RudderAngle::DrawBackground(wxGCDC* dc)
       wxCoord x = m_cx - (m_radius * 0.3);
       wxCoord y = m_cy - (m_radius * 0.5);
       wxColour cl;
-      GetGlobalColor(_T("DASH1"), &cl);
+      GetGlobalColor(wxT("DASH1"), &cl);
       dc->SetBrush( cl );
       dc->DrawEllipticArc(x, y, m_radius * 0.6, m_radius * 1.4, 0, 180);
 }

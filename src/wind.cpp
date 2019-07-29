@@ -56,7 +56,7 @@ DashboardInstrument_Wind::DashboardInstrument_Wind( wxWindow *parent, wxWindowID
 {
       SetOptionMarker(10, DIAL_MARKER_REDGREENBAR, 3);
       // Labels are set static because we've no logic to display them this way
-      wxString labels[] = {_T(""), _T("30"), _T("60"), _T("90"), _T("120"), _T("150"), _T(""), _T("150"), _T("120"), _T("90"), _T("60"), _T("30")};
+      wxString labels[] = {wxT(""), wxT("30"), wxT("60"), wxT("90"), wxT("120"), wxT("150"), wxT(""), wxT("150"), wxT("120"), wxT("90"), wxT("60"), wxT("30")};
       SetOptionLabel(30, DIAL_LABEL_HORIZONTAL, wxArrayString(12, labels));
 }
 
@@ -98,7 +98,7 @@ DashboardInstrument_TrueWindAngle::DashboardInstrument_TrueWindAngle( wxWindow *
 {
       SetOptionMarker(10, DIAL_MARKER_REDGREENBAR, 3);
       // Labels are set static because we've no logic to display them this way
-      wxString labels[] = {_T(""), _T("30"), _T("60"), _T("90"), _T("120"), _T("150"), _T(""), _T("150"), _T("120"), _T("90"), _T("60"), _T("30")};
+      wxString labels[] = {wxT(""), wxT("30"), wxT("60"), wxT("90"), wxT("120"), wxT("150"), wxT(""), wxT("150"), wxT("120"), wxT("90"), wxT("60"), wxT("30")};
       SetOptionLabel(30, DIAL_LABEL_HORIZONTAL, wxArrayString(12, labels));
 }
 
@@ -122,11 +122,11 @@ DashboardInstrument_AppTrueWindAngle::DashboardInstrument_AppTrueWindAngle(wxWin
 {
 	SetOptionMarker(10, DIAL_MARKER_REDGREENBAR, 3);
 	// Labels are set static because we've no logic to display them this way
-	wxString labels[] = { _T(""), _T("30"), _T("60"), _T("90"), _T("120"), _T("150"), _T(""), _T("150"), _T("120"), _T("90"), _T("60"), _T("30") };
+	wxString labels[] = { wxT(""), wxT("30"), wxT("60"), wxT("90"), wxT("120"), wxT("150"), wxT(""), wxT("150"), wxT("120"), wxT("90"), wxT("60"), wxT("30") };
 	SetOptionLabel(30, DIAL_LABEL_HORIZONTAL, wxArrayString(12, labels));
 #ifdef _TACTICSPI_H_
 	m_TWD = NAN;
-	m_TWDUnit = _T("");
+	m_TWDUnit = wxT("");
 	m_MainValueApp = NAN;
 	m_ExtraValueApp = NAN;
 	m_MainValueTrue = NAN;
@@ -188,7 +188,7 @@ void DashboardInstrument_AppTrueWindAngle::SetData(
 void DashboardInstrument_AppTrueWindAngle::Draw(wxGCDC* bdc)
 {
 	wxColour c1;
-	GetGlobalColor(_T("DASHB"), &c1);
+	GetGlobalColor(wxT("DASHB"), &c1);
 	wxBrush b1(c1);
 	bdc->SetBackground(b1);
 	bdc->Clear();
@@ -197,7 +197,7 @@ void DashboardInstrument_AppTrueWindAngle::Draw(wxGCDC* bdc)
 	m_cx = size.x / 2;
 	int availableHeight = size.y - m_TitleHeight - 6;
 	int width, height;
-	bdc->GetTextExtent(_T("000"), &width, &height, 0, 0, g_pFontLabel);
+	bdc->GetTextExtent(wxT("000"), &width, &height, 0, 0, g_pFontLabel);
 	m_cy = m_TitleHeight + 2;
 	m_cy += availableHeight / 2;
 	m_radius = availableHeight / 2.0 * 0.95;
@@ -212,7 +212,7 @@ void DashboardInstrument_AppTrueWindAngle::Draw(wxGCDC* bdc)
 	DrawData(bdc, m_ExtraValueApp, m_ExtraValueAppUnit, m_ExtraValueFormat, m_ExtraValueOption1);
 	DrawData(bdc, m_ExtraValueTrue, m_ExtraValueTrueUnit, m_ExtraValueFormat, m_ExtraValueOption2);
 #ifdef _TACTICSPI_H_
-	DrawData(bdc, m_TWD, m_MainValueTrueUnit, _T("TWD:%.0f"), DIAL_POSITION_INSIDE);
+	DrawData(bdc, m_TWD, m_MainValueTrueUnit, wxT("TWD:%.1f"), DIAL_POSITION_INSIDE);
 #endif // _TACTICSPI_H_    
 	DrawForeground(bdc);
 }
@@ -224,13 +224,13 @@ void DashboardInstrument_AppTrueWindAngle::DrawForeground(wxGCDC* dc)
 	double value;
 	// The default foreground is the arrow used in most dials
 	wxColour cl;
-	GetGlobalColor(_T("DASH2"), &cl);
+	GetGlobalColor(wxT("DASH2"), &cl);
 	wxPen pen1;
 	pen1.SetStyle(wxPENSTYLE_SOLID);
 	pen1.SetColour(cl);
 	pen1.SetWidth(2);
 	dc->SetPen(pen1);
-	GetGlobalColor(_T("DASH1"), &cl);
+	GetGlobalColor(wxT("DASH1"), &cl);
 	wxBrush brush1;
 	brush1.SetStyle(wxBRUSHSTYLE_SOLID);
 	brush1.SetColour(cl);
@@ -243,7 +243,7 @@ void DashboardInstrument_AppTrueWindAngle::DrawForeground(wxGCDC* dc)
 #endif //_TACTICSPI_H_ 
         dc->SetPen(*wxTRANSPARENT_PEN);
 
-        GetGlobalColor(_T("BLUE3"), &cl);
+        GetGlobalColor(wxT("BLUE3"), &cl);
         wxBrush brush2;
         brush2.SetStyle(wxBRUSHSTYLE_SOLID);
         brush2.SetColour(cl);
@@ -253,9 +253,9 @@ void DashboardInstrument_AppTrueWindAngle::DrawForeground(wxGCDC* dc)
            m_MainValue is supplied as <0..180><L | R>
            * for example TWA & AWA */
 #ifdef _TACTICSPI_H_
-        if (m_MainValueTrueUnit == _T("\u00B0lr"))
+        if (m_MainValueTrueUnit == wxT("\u00B0lr"))
 #else
-        if (m_MainValueTrueUnit == _T("\u00B0L"))
+        if (m_MainValueTrueUnit == wxT("\u00B0L"))
 #endif // _TACTICSPI_H_
             data = 360 - m_MainValueTrue;
         else
@@ -287,7 +287,7 @@ void DashboardInstrument_AppTrueWindAngle::DrawForeground(wxGCDC* dc)
 #endif // _TACTICSPI_H_
 	dc->SetPen(*wxTRANSPARENT_PEN);
 
-	GetGlobalColor(_T("DASHN"), &cl);
+	GetGlobalColor(wxT("DASHN"), &cl);
 	wxBrush brush;
 	brush.SetStyle(wxBRUSHSTYLE_SOLID);
 	brush.SetColour(cl);
@@ -297,9 +297,9 @@ void DashboardInstrument_AppTrueWindAngle::DrawForeground(wxGCDC* dc)
        when m_MainValue is supplied as <0..180><L | R>
        * for example TWA & AWA */
 #ifdef _TACTICSPI_H_
-    if (m_MainValueAppUnit == _T("\u00B0lr"))
+    if (m_MainValueAppUnit == wxT("\u00B0lr"))
 #else
-    if (m_MainValueAppUnit == _T("\u00B0L"))
+    if (m_MainValueAppUnit == wxT("\u00B0L"))
 #endif // _TACTICSPI_H_
 		data = 360 - m_MainValueApp;
 	else
@@ -333,7 +333,7 @@ void DashboardInstrument_AppTrueWindAngle::DrawData(wxGCDC* dc, double value,
 
 	dc->SetFont(*g_pFontLabel);
 	wxColour cl;
-	GetGlobalColor(_T("DASHF"), &cl);
+	GetGlobalColor(wxT("DASHF"), &cl);
 	dc->SetTextForeground(cl);
 
 	wxSize size = GetClientSize();
@@ -341,31 +341,31 @@ void DashboardInstrument_AppTrueWindAngle::DrawData(wxGCDC* dc, double value,
 	wxString text;
 	if (!std::isnan(value))
 	{
-		if (unit == _T("\u00B0"))
+		if (unit == wxT("\u00B0"))
 			text = wxString::Format(format, value) + DEGREE_SIGN;
 #ifdef _TACTICSPI_H_
-		else if (unit == _T("\u00B0lr")) // No special display for now, might be XXdeg< (as in text-only instrument)
+		else if (unit == wxT("\u00B0lr")) // No special display for now, might be XXdeg< (as in text-only instrument)
 #else
-		else if (unit == _T("\u00B0L")) // No special display for now, might be XXdeg< (as in text-only instrument)
+		else if (unit == wxT("\u00B0L")) // No special display for now, might be XXdeg< (as in text-only instrument)
 #endif // _TACTICSPI_H_
 			text = wxString::Format(format, value) + DEGREE_SIGN;
 #ifdef _TACTICSPI_H_
-		else if (unit == _T("\u00B0rl")) // No special display for now, might be >XXdeg
+		else if (unit == wxT("\u00B0rl")) // No special display for now, might be >XXdeg
 #else
-		else if (unit == _T("\u00B0R")) // No special display for now, might be >XXdeg
+		else if (unit == wxT("\u00B0R")) // No special display for now, might be >XXdeg
 #endif // _TACTICSPI_H_
 			text = wxString::Format(format, value) + DEGREE_SIGN;
-		else if (unit == _T("\u00B0T"))
-			text = wxString::Format(format, value) + DEGREE_SIGN + _T("T");
-		else if (unit == _T("\u00B0M"))
-			text = wxString::Format(format, value) + DEGREE_SIGN + _T("M");
-		else if (unit == _T("N")) // Knots
-			text = wxString::Format(format, value) + _T(" Kts");
+		else if (unit == wxT("\u00B0T"))
+			text = wxString::Format(format, value) + DEGREE_SIGN + wxT("T");
+		else if (unit == wxT("\u00B0M"))
+			text = wxString::Format(format, value) + DEGREE_SIGN + wxT("M");
+		else if (unit == wxT("N")) // Knots
+			text = wxString::Format(format, value) + wxT(" Kts");
 		else
-			text = wxString::Format(format, value) + _T(" ") + unit;
+			text = wxString::Format(format, value) + wxT(" ") + unit;
 	}
 	else
-		text = _T("---");
+		text = wxT("---");
 
 	int width, height;
 	dc->GetMultiLineTextExtent(text, &width, &height, NULL, g_pFontLabel);
@@ -385,11 +385,11 @@ void DashboardInstrument_AppTrueWindAngle::DrawData(wxGCDC* dc, double value,
 	{
 		TextPoint.x = m_cx - (width / 2) - 1;
 		TextPoint.y = (size.y * .75) - height;
-		GetGlobalColor(_T("DASHL"), &cl);
+		GetGlobalColor(wxT("DASHL"), &cl);
 		int penwidth = size.x / 100;
 		wxPen* pen = wxThePenList->FindOrCreatePen(cl, penwidth, wxPENSTYLE_SOLID);
 		dc->SetPen(*pen);
-		GetGlobalColor(_T("DASHB"), &cl);
+		GetGlobalColor(wxT("DASHB"), &cl);
 		dc->SetBrush(cl);
 		// There might be a background drawn below
 		// so we must clear it first.
@@ -397,31 +397,31 @@ void DashboardInstrument_AppTrueWindAngle::DrawData(wxGCDC* dc, double value,
 		break;
 	}
 	case DIAL_POSITION_TOPLEFT:
-		GetGlobalColor(_T("DASHN"), &c3);
+		GetGlobalColor(wxT("DASHN"), &c3);
 		TextPoint.x = 0;
 		TextPoint.y = m_TitleHeight;
-		text = _T("A:") + text;
+		text = wxT("A:") + text;
 		break;
 	case DIAL_POSITION_TOPRIGHT:
-		GetGlobalColor(_T("DASHN"), &c3);
+		GetGlobalColor(wxT("DASHN"), &c3);
 		TextPoint.x = size.x - width - 1;
 		TextPoint.y = m_TitleHeight;
 		break;
 	case DIAL_POSITION_BOTTOMLEFT:
-		GetGlobalColor(_T("BLUE3"), &c3);
-		text = _T("T:") + text;
+		GetGlobalColor(wxT("BLUE3"), &c3);
+		text = wxT("T:") + text;
 		TextPoint.x = 0;
 		TextPoint.y = size.y - height;
 		break;
 	case DIAL_POSITION_BOTTOMRIGHT:
-		GetGlobalColor(_T("BLUE3"), &c3);
+		GetGlobalColor(wxT("BLUE3"), &c3);
 		TextPoint.x = size.x - width - 1;
 		TextPoint.y = size.y - height;
 		break;
 	}
 	wxColour c2;
-	GetGlobalColor(_T("DASHB"), &c2);
-	wxStringTokenizer tkz(text, _T("\n"));
+	GetGlobalColor(wxT("DASHB"), &c2);
+	wxStringTokenizer tkz(text, wxT("\n"));
 	wxString token;
 
 	token = tkz.GetNextToken();

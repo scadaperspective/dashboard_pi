@@ -36,24 +36,24 @@ void initialize_images(void)
 #ifdef OCPN_USE_SVG
     wxFileName fn;
     fn.SetPath(*GetpSharedDataLocation());
-    fn.AppendDir(_T("plugins"));
+    fn.AppendDir(wxT("plugins"));
 #ifdef _TACTICSPI_H_
-    fn.AppendDir(_T("dashboard_pi"));
-    fn.AppendDir(_T("data"));
-    fn.SetFullName(_T("Dashboard.svg"));
+    fn.AppendDir(wxT("dashboard_pi"));
+    fn.AppendDir(wxT("data"));
+    fn.SetFullName(wxT("Dashboard.svg"));
     _svg_dashboard = fn.GetFullPath();
-    fn.SetFullName(_T("Dashboard_rollover.svg"));
+    fn.SetFullName(wxT("Dashboard_rollover.svg"));
     _svg_dashboard_rollover = fn.GetFullPath();
-    fn.SetFullName(_T("Dashboard_toggled.svg"));
+    fn.SetFullName(wxT("Dashboard_toggled.svg"));
     _svg_dashboard_toggled = fn.GetFullPath();
 #else
-    fn.AppendDir(_T("dashboard_pi"));
-    fn.AppendDir(_T("data"));
-    fn.SetFullName(_T("Dashboard.svg"));
+    fn.AppendDir(wxT("dashboard_pi"));
+    fn.AppendDir(wxT("data"));
+    fn.SetFullName(wxT("Dashboard.svg"));
     _svg_dashboard = fn.GetFullPath();
-    fn.SetFullName(_T("Dashboard_rollover.svg"));
+    fn.SetFullName(wxT("Dashboard_rollover.svg"));
     _svg_dashboard_rollover = fn.GetFullPath();
-    fn.SetFullName(_T("Dashboard_toggled.svg"));
+    fn.SetFullName(wxT("Dashboard_toggled.svg"));
     _svg_dashboard_toggled = fn.GetFullPath();
 #endif // _TACTICSPI_H_
 #endif //  OCPN_USE_SVG

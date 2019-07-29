@@ -59,7 +59,7 @@ DashboardInstrument_WindDirHistory::DashboardInstrument_WindDirHistory( wxWindow
 #ifdef _TACTICSPI_H_
     m_TrueWindDir = NAN;
     m_TrueWindSpd = NAN;
-    m_WindSpeedUnit = _T("--");
+    m_WindSpeedUnit = wxT("--");
 #else
     m_WindSpeedUnit = _("--");
 #endif // _TACTICSPI_H_
@@ -394,38 +394,38 @@ void  DashboardInstrument_WindDirHistory::DrawWindDirScale(wxGCDC* dc)
   dc->SetTextForeground(cl);
   dc->SetFont(*g_pFontSmall);
   if(!m_IsRunning) {
-    label1=_T("---");
-    label2=_T("---");
-    label3=_T("---");
-    label4=_T("---");
-    label5=_T("---");
+    label1=wxT("---");
+    label2=wxT("---");
+    label3=wxT("---");
+    label4=wxT("---");
+    label5=wxT("---");
   }
   else {
     // label 1 : legend for bottom line. By definition always w/o decimals
     double tempdir=m_MinWindDir;
     while (tempdir < 0)    tempdir+=360;
     while (tempdir >= 360) tempdir-=360;
-    label1=GetWindDirStr(wxString::Format(_T("%.1f"), tempdir));
+    label1=GetWindDirStr(wxString::Format(wxT("%.1f"), tempdir));
     // label 2 : 1/4
     tempdir=m_MinWindDir+m_WindDirRange/4.;
     while (tempdir < 0)    tempdir+=360;
     while (tempdir >= 360) tempdir-=360;
-    label2=GetWindDirStr(wxString::Format(_T("%.1f"), tempdir));
+    label2=GetWindDirStr(wxString::Format(wxT("%.1f"), tempdir));
     // label 3 : legend for center line
     tempdir=m_MinWindDir+m_WindDirRange/2;
     while (tempdir < 0)    tempdir+=360;
     while (tempdir >= 360) tempdir-=360;
-    label3=GetWindDirStr(wxString::Format(_T("%.1f"), tempdir));
+    label3=GetWindDirStr(wxString::Format(wxT("%.1f"), tempdir));
     // label 4 :  3/4
     tempdir=m_MinWindDir+m_WindDirRange*0.75;
     while (tempdir < 0)    tempdir+=360;
     while (tempdir >= 360) tempdir-=360;
-    label4=GetWindDirStr(wxString::Format(_T("%.1f"), tempdir));
+    label4=GetWindDirStr(wxString::Format(wxT("%.1f"), tempdir));
     // label 5 : legend for top line
     tempdir=m_MaxWindDir;
     while (tempdir < 0)    tempdir+=360;
     while (tempdir >= 360) tempdir-=360;
-    label5=GetWindDirStr(wxString::Format(_T("%.1f"), tempdir));
+    label5=GetWindDirStr(wxString::Format(wxT("%.1f"), tempdir));
   }
   //draw the legend with the labels; find the widest string and store it in m_RightLegend.
   // m_RightLegend is the basis for the horizontal lines !
@@ -478,38 +478,38 @@ void  DashboardInstrument_WindDirHistory::DrawWindSpeedScale(wxGCDC* dc)
  The goal is to draw the legend with decimals only, if we really have them !
 */
     // top legend for max wind
-	label1.Printf(_T("%.0f %s"), m_MaxWindSpdScale,m_WindSpeedUnit.c_str());
+	label1.Printf(wxT("%.0f %s"), m_MaxWindSpdScale,m_WindSpeedUnit.c_str());
     // 3/4 legend
     WindSpdScale=m_MaxWindSpdScale*3./4.;
     // do we need a decimal ?
     val1=(int)((WindSpdScale-(int)WindSpdScale)*100);
     if(val1==25 || val1==75)  // it's a .25 or a .75
-	  label2.Printf(_T("%.2f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label2.Printf(wxT("%.2f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
 	else if (val1 == 50)
-	  label2.Printf(_T("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label2.Printf(wxT("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
     else
-	  label2.Printf(_T("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label2.Printf(wxT("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
     // center legend
     WindSpdScale=m_MaxWindSpdScale/2.;
     // center line can either have a .0 or .5 value !
     if((int)(WindSpdScale*10) % 10 == 5)
-	  label3.Printf(_T("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label3.Printf(wxT("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
     else
-	  label3.Printf(_T("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label3.Printf(wxT("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
 
     // 1/4 legend
     WindSpdScale=m_MaxWindSpdScale/4.;
     // do we need a decimal ?
     val1=(int)((WindSpdScale-(int)WindSpdScale)*100);
     if(val1==25 || val1==75)
- 	  label4.Printf(_T("%.2f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+ 	  label4.Printf(wxT("%.2f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
 	else if (val1 == 50)
-	  label4.Printf(_T("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label4.Printf(wxT("%.1f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
 	else
-	  label4.Printf(_T("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
+	  label4.Printf(wxT("%.0f %s"), WindSpdScale, m_WindSpeedUnit.c_str());
 
     //bottom legend for min wind, always 0
-	label5.Printf(_T("%.0f %s"), 0.0, m_WindSpeedUnit.c_str());
+	label5.Printf(wxT("%.0f %s"), 0.0, m_WindSpeedUnit.c_str());
   }
   dc->GetTextExtent(label1, &m_LeftLegend, &height, 0, 0, g_pFontSmall);
   dc->DrawText(label1, 4, (int)(m_TopLineHeight-height/2));
@@ -545,7 +545,7 @@ void DashboardInstrument_WindDirHistory::DrawBackground(wxGCDC* dc)
   //---------------------------------------------------------------------------------
   // horizontal lines
   //---------------------------------------------------------------------------------
-  GetGlobalColor(_T("UBLCK"), &cl);
+  GetGlobalColor(wxT("UBLCK"), &cl);
   pen.SetColour(cl);
   dc->SetPen(pen);
   dc->DrawLine(m_LeftLegend+3, m_TopLineHeight, m_WindowRect.width-3-m_RightLegend, m_TopLineHeight); // the upper line
@@ -566,52 +566,52 @@ void DashboardInstrument_WindDirHistory::DrawBackground(wxGCDC* dc)
 //***********************************************************************************
 wxString DashboardInstrument_WindDirHistory::GetWindDirStr(wxString WindDir)
 {
-   if ( WindDir == _T("0.0") || WindDir == _T("360.0") )
+   if ( WindDir == wxT("0.0") || WindDir == wxT("360.0") )
      return _("N");
    else
-   if (WindDir == _T("22.5"))
+   if (WindDir == wxT("22.5"))
      return _("NNE");
    else
-   if (WindDir == _T("45.0"))
+   if (WindDir == wxT("45.0"))
      return _("NE");
    else
-   if (WindDir == _T("67.5"))
+   if (WindDir == wxT("67.5"))
      return _("ENE");
    else
-   if (WindDir == _T("90.0"))
+   if (WindDir == wxT("90.0"))
      return _("E");
    else
-   if (WindDir == _T("112.5"))
+   if (WindDir == wxT("112.5"))
      return _("ESE");
    else
-   if (WindDir == _T("135.0"))
+   if (WindDir == wxT("135.0"))
      return _("SE");
    else
-   if (WindDir == _T("157.5"))
+   if (WindDir == wxT("157.5"))
      return _("SSE");
    else
-   if (WindDir == _T("180.0"))
+   if (WindDir == wxT("180.0"))
      return _("S");
    else
-   if (WindDir == _T("202.5"))
+   if (WindDir == wxT("202.5"))
      return _("SSW");
    else
-   if (WindDir == _T("225.0"))
+   if (WindDir == wxT("225.0"))
      return _("SW");
    else
-   if (WindDir == _T("247.5"))
+   if (WindDir == wxT("247.5"))
      return _("WSW");
    else
-   if (WindDir == _T("270.0"))
+   if (WindDir == wxT("270.0"))
      return _("W");
    else
-   if (WindDir == _T("292.5"))
+   if (WindDir == wxT("292.5"))
      return _("WNW");
    else
-   if (WindDir == _T("315.0"))
+   if (WindDir == wxT("315.0"))
      return _("NW");
    else
-   if (WindDir == _T("337.5"))
+   if (WindDir == wxT("337.5"))
      return _("NNW");
    else
      return WindDir;
@@ -638,12 +638,12 @@ void DashboardInstrument_WindDirHistory::DrawForeground(wxGCDC* dc)
   col=wxColour(204,41,41,255); //red, opaque
   dc->SetTextForeground(col);
   if(!m_IsRunning)
-    WindAngle=_T("TWD ---");
+    WindAngle=wxT("TWD ---");
   else {
     dir=m_WindDir;
     while(dir > 360) dir-=360;
     while(dir <0 ) dir+=360;
-    WindAngle=wxString::Format(_T("TWD %3.0f"), dir)+DEGREE_SIGN;
+    WindAngle=wxString::Format(wxT("TWD %3.0f"), dir)+DEGREE_SIGN;
   }
   dc->GetTextExtent(WindAngle, &degw, &degh, 0, 0, g_pFontData);
   dc->DrawText(WindAngle, m_WindowRect.width-degw-m_RightLegend-3, m_TopLineHeight-degh);
@@ -694,7 +694,7 @@ void DashboardInstrument_WindDirHistory::DrawForeground(wxGCDC* dc)
   col=wxColour(61,61,204,255); //blue, opaque
   dc->SetFont(*g_pFontData);
   dc->SetTextForeground(col);
-  WindSpeed=wxString::Format(_T("TWS %3.1f %s "), m_WindSpd, m_WindSpeedUnit.c_str());
+  WindSpeed=wxString::Format(wxT("TWS %3.1f %s "), m_WindSpd, m_WindSpeedUnit.c_str());
   dc->GetTextExtent(WindSpeed, &degw, &degh, 0, 0, g_pFontData);
   dc->DrawText(WindSpeed, m_LeftLegend+3, m_TopLineHeight-degh);
   dc->SetFont(*g_pFontLabel);
@@ -753,7 +753,7 @@ void DashboardInstrument_WindDirHistory::DrawForeground(wxGCDC* dc)
   //---------------------------------------------------------------------------------
   //draw vertical timelines every 5 minutes
   //---------------------------------------------------------------------------------
-  GetGlobalColor(_T("UBLCK"), &col);
+  GetGlobalColor(wxT("UBLCK"), &col);
   pen.SetColour(col);
   pen.SetStyle(wxPENSTYLE_DOT);
   dc->SetPen(pen);
@@ -770,7 +770,7 @@ void DashboardInstrument_WindDirHistory::DrawForeground(wxGCDC* dc)
           if ((hour * 100 + min) != done && (min % 5 == 0) && (sec == 0 || sec == 1)) {
               pointTime.x = idx * m_ratioW + 3 + m_LeftLegend;
               dc->DrawLine( pointTime.x, m_TopLineHeight+1, pointTime.x,(m_TopLineHeight+m_DrawAreaRect.height+1) );
-              label.Printf(_T("%02d:%02d"), hour,min);
+              label.Printf(wxT("%02d:%02d"), hour,min);
               dc->GetTextExtent(label, &width, &height, 0, 0, g_pFontSmall);
               dc->DrawText(label, pointTime.x-width/2, m_WindowRect.height-height);
               done=hour*100+min;

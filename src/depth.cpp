@@ -49,7 +49,7 @@ DashboardInstrument_Depth::DashboardInstrument_Depth( wxWindow *parent, wxWindow
       m_MaxDepth = 0;
       m_Depth = 0;
       m_DepthUnit = getUsrDistanceUnit_Plugin( g_iDashDepthUnit );
-      m_Temp = _T("--");
+      m_Temp = wxT("--");
       for (int idx = 0; idx < DEPTH_RECORD_COUNT; idx++)
       {
             m_ArrayDepth[idx] = 0;
@@ -89,7 +89,7 @@ void DashboardInstrument_Depth::SetData(
       }
       else if (st == OCPN_DBP_STC_TMP)
       {
-            m_Temp = wxString::Format(_T("%.1f"), data)+DEGREE_SIGN+unit;
+            m_Temp = wxString::Format(wxT("%.1f"), data)+DEGREE_SIGN+unit;
       }
 }
 
@@ -104,12 +104,12 @@ void DashboardInstrument_Depth::DrawBackground(wxGCDC* dc)
       wxSize size = GetClientSize();
       wxColour cl;
 
-      GetGlobalColor(_T("DASHL"), &cl);
+      GetGlobalColor(wxT("DASHL"), &cl);
       dc->SetTextForeground(cl);
 
       wxPen pen;
       pen.SetStyle(wxPENSTYLE_SOLID);
-      GetGlobalColor(_T("DASHF"), &cl);
+      GetGlobalColor(wxT("DASHF"), &cl);
       pen.SetColour(cl);
       pen.SetWidth(1);
       dc->SetPen(pen);
@@ -141,12 +141,12 @@ void DashboardInstrument_Depth::DrawBackground(wxGCDC* dc)
       m_MaxDepth *= 1.2;
 
       wxString label;
-      label.Printf(_T("%.0f ")+m_DepthUnit, 0.0);
+      label.Printf(wxT("%.1f ")+m_DepthUnit, 0.0);
       int width, height;
       dc->GetTextExtent(label, &width, &height, 0, 0, g_pFontSmall);
       dc->DrawText(label, size.x-width-1, 40-height);
 
-      label.Printf(_T("%.0f ")+m_DepthUnit, m_MaxDepth);
+      label.Printf(wxT("%.1f ")+m_DepthUnit, m_MaxDepth);
       dc->GetTextExtent(label, &width, &height, 0, 0, g_pFontSmall);
       dc->DrawText(label, size.x-width-1, size.y-height);
 }
@@ -156,7 +156,7 @@ void DashboardInstrument_Depth::DrawForeground(wxGCDC* dc)
       wxSize size = GetClientSize();
       wxColour cl;
 
-      GetGlobalColor(_T("DASHL"), &cl);
+      GetGlobalColor(wxT("DASHL"), &cl);
       wxBrush brush;
       brush.SetStyle(wxBRUSHSTYLE_SOLID);
       brush.SetColour(cl);
@@ -180,10 +180,10 @@ void DashboardInstrument_Depth::DrawForeground(wxGCDC* dc)
       points[DEPTH_RECORD_COUNT+1].y = 140;
       dc->DrawPolygon(DEPTH_RECORD_COUNT+2, points);
       
-      GetGlobalColor(_T("DASHF"), &cl);
+      GetGlobalColor(wxT("DASHF"), &cl);
       dc->SetTextForeground( cl );
       dc->SetFont(*g_pFontData);
-      dc->DrawText(wxString::Format(_T("%.1f "), m_Depth)+m_DepthUnit, 10, m_TitleHeight);
+      dc->DrawText(wxString::Format(wxT("%.1f "), m_Depth)+m_DepthUnit, 10, m_TitleHeight);
 
       dc->SetFont(*g_pFontLabel);
       int width, height;
